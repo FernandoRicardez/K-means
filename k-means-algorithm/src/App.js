@@ -38,7 +38,7 @@ readFile(e)
   reader.onload=(e)=>{
     // console.log('data', e.target.result);
 
-    let arrPoints = [];
+    let arrPoints = {};
     let dataSetee = [];
 
     const lines = e.target.result.split(/[\r\n]+/g);
@@ -49,11 +49,25 @@ readFile(e)
 
       for(var j = 0; j < pointer.length; j++){
         // console.log(i  + ':' + j +  '-->' + pointer[j]);
-        arrPoints.push(pointer[j]);
+        // arrPoints.push(pointer[j]);
+        switch (j) {
+          case 0:
+            arrPoints.w = parseFloat(pointer[j]);
+            break;
+          case 1:
+            arrPoints.x = parseFloat(pointer[j]);
+            break;
+          case 2:
+            arrPoints.y = parseFloat(pointer[j]);
+            break;
+          case 3:
+            arrPoints.z = parseFloat(pointer[j]);
+            break;
+        }
       }
 
       dataSetee.push(arrPoints);
-      arrPoints = [];
+      arrPoints = {};
     }
 
     // console.log(dataSetee);
@@ -92,10 +106,6 @@ return [min, max];
 
 }
 
-
-
-
-
   render() {
     return (
       <div className="App">
@@ -103,6 +113,7 @@ return [min, max];
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Welcome to React</h1>
         </header>
+        <br/>
         <p>¿Cuantas K desea utilizar?</p>
         <input type="text" className="form-control" name="kMeans" value={this.state.kMeans} onChange={this.setKmeansNumber} />
         <p>¿Qué archivo desea utilizar?</p>
