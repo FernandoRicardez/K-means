@@ -11,7 +11,8 @@ class App extends Component {
           dataSet: [],
           centroids:[],
           clusters:[],
-          kMeans: 0
+          kMeans: '0',
+          fileName:''
       };
 
       //Bindings
@@ -28,6 +29,8 @@ class App extends Component {
 readFile(event)
 {
   //readFile
+  this.setState({fileName: event.target.value});
+
 
   this.calculateInitialCentroids();
 }
@@ -38,13 +41,23 @@ setKmeansNumber(event)
 
 }
 
-calculateCentroids()
+updateCentroids()
 {
 
 }
 
 calculateInitialCentroids()
 {
+
+
+for (let i = 1, len=arr.length; i < len; i++) {
+  let v = arr[i].y;
+  min = (v < min) ? v : min;
+  max = (v > max) ? v : max;
+}
+
+return [min, max];
+
 }
 
 
@@ -59,11 +72,12 @@ calculateInitialCentroids()
           <h1 className="App-title">Welcome to React</h1>
         </header>
         <p>¿Cuantas K desea utilizar?</p>
-        <input type="number" class="form-control" name="kMeans" value={this.state.kMeans} onChange={this.setKmeansNumber} />
+        <input type="text" class="form-control" name="kMeans" value={this.state.kMeans} onChange={this.setKmeansNumber} />
         <p>¿Qué archivo desea utilizar?</p>
 
-        <select>
-
+        <select value={this.state.fileName} onChange={this.readFile}>
+          <option value="data.txt">Iris</option>
+          <option value="data2.txt">Ejemplo 2</option>
         </select>
 
       </div>
