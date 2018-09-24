@@ -9,8 +9,12 @@ class App extends Component {
       super(props);
       this.state = {
           dataSet: '',
-          kMeans:''
+          kMeans: 0
       };
+
+      //Bindings
+      this.setKmeansNumber = this.setKmeansNumber.bind(this);
+
   }
 
 
@@ -22,6 +26,12 @@ readFile(fileName)
 
 }
 
+setKmeansNumber(event)
+{
+  this.setState({kMeans: event.target.value});
+
+}
+
   render() {
     return (
       <div className="App">
@@ -29,11 +39,9 @@ readFile(fileName)
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Welcome to React</h1>
           <p>¿Cuantas K desea utilizar?</p>
-          <input type="number" name="kMeans" value={this.state.kMeans} />
+          <input type="number" class="form-control" name="kMeans" value={this.state.kMeans} onChange={this.setKmeansNumber} />
         </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+
       </div>
     );
   }
