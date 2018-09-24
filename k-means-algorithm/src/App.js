@@ -80,7 +80,7 @@ updateCentroids()
 calculateInitialCentroids()
 {
 
-
+/*
 for (let i = 1, len=arr.length; i < len; i++) {
   let v = arr[i].y;
   min = (v < min) ? v : min;
@@ -88,6 +88,7 @@ for (let i = 1, len=arr.length; i < len; i++) {
 }
 
 return [min, max];
+*/
 
 }
 
@@ -103,7 +104,7 @@ return [min, max];
           <h1 className="App-title">Welcome to React</h1>
         </header>
         <p>¿Cuantas K desea utilizar?</p>
-        <input type="text" class="form-control" name="kMeans" value={this.state.kMeans} onChange={this.setKmeansNumber} />
+        <input type="text" className="form-control" name="kMeans" value={this.state.kMeans} onChange={this.setKmeansNumber} />
         <p>¿Qué archivo desea utilizar?</p>
 
         <input type="file" name="file" onChange={(e)=>this.readFile(e)} />
