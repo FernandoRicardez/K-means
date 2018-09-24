@@ -8,12 +8,16 @@ class App extends Component {
   {
       super(props);
       this.state = {
-          dataSet: '',
+          dataSet: [],
+          centroids:[],
+          clusters:[],
           kMeans: 0
       };
 
       //Bindings
       this.setKmeansNumber = this.setKmeansNumber.bind(this);
+      this.readFile = this.readFile.bind(this);
+      this.calculateInitialCentroids = this.calculateInitialCentroids.bind(this);
 
   }
 
@@ -21,9 +25,11 @@ class App extends Component {
 //Kmeans Algorithm
 
 //Read data file
-readFile(fileName)
+readFile(event)
 {
+  //readFile
 
+  this.calculateInitialCentroids();
 }
 
 setKmeansNumber(event)
@@ -32,15 +38,33 @@ setKmeansNumber(event)
 
 }
 
+calculateCentroids()
+{
+
+}
+
+calculateInitialCentroids()
+{
+}
+
+
+
+
+
   render() {
     return (
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Welcome to React</h1>
-          <p>¿Cuantas K desea utilizar?</p>
-          <input type="number" class="form-control" name="kMeans" value={this.state.kMeans} onChange={this.setKmeansNumber} />
         </header>
+        <p>¿Cuantas K desea utilizar?</p>
+        <input type="number" class="form-control" name="kMeans" value={this.state.kMeans} onChange={this.setKmeansNumber} />
+        <p>¿Qué archivo desea utilizar?</p>
+
+        <select>
+
+        </select>
 
       </div>
     );
