@@ -20,16 +20,47 @@ class App extends Component {
       this.readFile = this.readFile.bind(this);
       this.calculateInitialCentroids = this.calculateInitialCentroids.bind(this);
 
+
   }
 
 
 //Kmeans Algorithm
 
 //Read data file
-readFile(event)
+readFile(e)
 {
   //readFile
-  this.setState({fileName: event.target.value});
+  let file = e.target.files;
+
+  let reader = new FileReader();
+  reader.readAsText(file[0]);
+
+  reader.onload=(e)=>{
+    // console.log('data', e.target.result);
+
+    let arrPoints = [];
+    let dataSetee = [];
+
+    const lines = e.target.result.split(/[\r\n]+/g);
+    for(var i = 0; i < lines.length; i++) {
+
+      // console.log(i + ' --> ' + lines[i]);
+      const pointer = lines[i].split(',');
+
+      for(var j = 0; j < pointer.length; j++){
+        // console.log(i  + ':' + j +  '-->' + pointer[j]);
+        arrPoints.push(pointer[j]);
+      }
+
+      dataSetee.push(arrPoints);
+      arrPoints = [];
+    }
+
+    // console.log(dataSetee);
+
+    var myJsonString = JSON.stringify(dataSetee);
+    console.log(myJsonString);
+  }
 
 
   this.calculateInitialCentroids();
@@ -75,10 +106,7 @@ return [min, max];
         <input type="text" class="form-control" name="kMeans" value={this.state.kMeans} onChange={this.setKmeansNumber} />
         <p>¿Qué archivo desea utilizar?</p>
 
-        <select value={this.state.fileName} onChange={this.readFile}>
-          <option value="data.txt">Iris</option>
-          <option value="data2.txt">Ejemplo 2</option>
-        </select>
+        <input type="file" name="file" onChange={(e)=>this.readFile(e)} />
 
       </div>
     );
