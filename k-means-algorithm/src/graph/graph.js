@@ -1,30 +1,46 @@
 export default function graph(p)
 {
-    let rotation = 0;
     let dataset = [];
-
+    let centroids = [];
+    let kMeans = 0;
+    let clusters = [];
     p.setup = function () {
-        p.createCanvas(600, 400);
+        p.createCanvas(500, 500);
       };
     
       p.myCustomRedrawAccordingToNewPropsHandler = function (props) {
         if (props["dataSet"]){
           dataset = props["dataSet"];
-          console.log("si")
+          centroids = props["centroids"];
+          kMeans = props["kMeans"];
+          
         }
-        console.log(dataset)
+     
       };
     
       p.draw = function () {
-        p.background(0);
-        p.stroke(255);
+        p.background(255);
+        
+        p.stroke(0);
         p.strokeWeight(6);
-        p.point(50,50)
-    
+        
         for(var i =0; i<dataset.length;i++)
-        {
-            p.point(parseInt(dataset[i]["d"+0]*70),parseInt(dataset[i]["d"+1]*70));
+        {   
+            p.point(parseInt(dataset[i]["d"+0]*5),parseInt(dataset[i]["d"+3]*5));
             
+        }
+        
+        p.stroke(255,0,0);
+        p.strokeWeight(5);
+        
+       
+        for(var i=0; i< kMeans;i++)
+        {
+           
+        var centroid =  centroids.map(centroids => centroids[i]);
+          
+          p.point(parseInt(centroid[0]*5),parseInt(centroid[3]*5));
+           
         }
     
    

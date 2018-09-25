@@ -96,8 +96,9 @@ kMeansAlgorithm()
     // for(var i=0;i< kMeans;i++)
     // {
     //   clusters.push(tempCluster);
-    // }
-    var repeat = false;
+    // // }
+    // var repeat = false;
+    this.graph;
 
       for(var i = 0; i< dataSet.length; i++)
       {
@@ -275,14 +276,20 @@ calculateInitialCentroids()
             <h1 className="App-title">Welcome to React</h1>
           </header>
           <br/>
-          <p>¿Cuantas K desea utilizar?</p>
-          <input type="text" className="form-control" name="kMeans" value={this.state.kMeans} onChange={this.setKmeansNumber} />
-          <p>¿Qué archivo desea utilizar?</p>
+            <div className="row">
+              <div className="col-sm-3">
+                <p>¿Cuantas K desea utilizar?</p>
+                <input type="text" className="form-control" name="kMeans" value={this.state.kMeans} onChange={this.setKmeansNumber} />
+                <p>¿Qué archivo desea utilizar?</p>
 
-          <input type="file" name="file" onChange={(e)=>this.readFile(e)} />
-          
-          <P5Wrapper sketch={graph} dataSet={dataSet} />
-
+                <input type="file" name="file" onChange={(e)=>this.readFile(e)} />
+              </div>
+            
+              <div className="col-sm-9 orange">    
+                <br/>
+                <P5Wrapper sketch={graph} dataSet={this.state["dataSet"]} centroids={this.state["centroids"]}  kMeans={this.state["kMeans"]} />
+              </div>
+          </div>
         </div>
       );
       else
@@ -293,14 +300,21 @@ calculateInitialCentroids()
               <h1 className="App-title">Welcome to React</h1>
             </header>
             <br/>
-            <p>¿Cuantas K desea utilizar?</p>
-            <input type="text" className="form-control" name="kMeans" value={this.state.kMeans} onChange={this.setKmeansNumber} />
-            <p>¿Qué archivo desea utilizar?</p>
+            <div className="row">
+              <div className="col-sm-3">
+              <p>¿Cuantas K desea utilizar?</p>
+              <input type="text" className="form-control" name="kMeans" value={this.state.kMeans} onChange={this.setKmeansNumber} />
+              <p>¿Qué archivo desea utilizar?</p>
 
-            <input type="file" name="file" onChange={(e)=>this.readFile(e)} />
-            
+              <input type="file" name="file" onChange={(e)=>this.readFile(e)} />
+              </div>
+
+              <div className="col-sm-9 orange" >Seleccione un archivo para continuar
+              </div>
+            </div>
            
           </div>
+          
         );
        
 
