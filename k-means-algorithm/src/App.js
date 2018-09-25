@@ -21,7 +21,9 @@ class App extends Component {
       this.calculateInitialCentroids = this.calculateInitialCentroids.bind(this);
       this.kMeansAlgorithm = this.kMeansAlgorithm.bind(this);
       this.distance = this.distance.bind(this);
-
+      this.distance2 = this.distance2.bind(this);
+      this.updateCentroids = this.updateCentroids.bind(this);
+      this.graph = this.graph.bind(this);
   }
 
 
@@ -115,11 +117,79 @@ kMeansAlgorithm()
         }
         // update the clusters
         clusters.push(minJ);
+
+
       }
-      console.log(clusters)
+      this.setState({clusters:clusters});
+        this.updateCentroids();
 
 
 
+
+}
+
+updateCentroids()
+{
+
+      var dataSet = this.state["dataSet"];
+      var nDim = this.state["nDimensions"];
+      var kMeans = this.state["kMeans"];
+      var centroids = this.state["centroids"];
+      var clusters = this.state["clusters"];
+      var dimSum = [];
+      var clusterCount = []
+
+        for(var i=0; i<nDim; i++) {
+          dimSum[i] = [];
+          for(var j=0; j<kMeans; j++) {
+            dimSum[i][j] = 0;
+            }
+            clusterCount[i]=0;
+          }
+
+      for(var i=0; i<dataSet.length;i++)
+      {
+          var cluster = clusters[i];
+          clusterCount[cluster]++;
+          for(var j=0; j<nDim;j++)
+          {
+            dimSum[j][cluster]+= dataSet[i]["d"+j];
+          }
+      }
+      for(var i=0; i<kMeans;i++)
+      {
+        for(var j=0;j<nDim;j++)
+        {
+          dimSum[j][i]/= clusterCount[i];
+        }
+      }
+      //console.log(dimSum);
+      var seguir = false;
+      for (var i = 0; i < kMeans; i++) {
+          var oldCentroid =  centroids.map(centroids => centroids[i]);
+          var  newCentroid = dimSum.map(dimSum => dimSum[i]);
+          if(this.distance2(oldCentroid,newCentroid) > 0.01)
+          {
+            seguir = true;
+          }
+      }
+      if(seguir)
+      {
+          this.setState({centroids:dimSum   });
+          this.kMeansAlgorithm();
+      }
+      else {
+
+          console.log("CE finni");
+          console.log(clusters);
+          this.graph();
+      }
+
+
+}
+
+graph()
+{
 
 }
 
@@ -135,6 +205,17 @@ distance(p1,p2)
     return Math.sqrt(sum);
 }
 
+distance2(p1,p2)
+{
+
+  var nDim = this.state["nDimensions"];
+  var sum = 0;
+    for(var i=0; i< nDim;i++)
+    {
+      sum+= Math.pow((p1[i]-p2[i]),2);
+    }
+    return Math.sqrt(sum);
+}
 calculateInitialCentroids()
 {
   var dataSetee = this.state["dataSet"];
