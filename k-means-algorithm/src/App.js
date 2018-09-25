@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
+import P5Wrapper from 'react-p5-wrapper';
+import graph from './graph/graph';
 import './App.css';
 
 class App extends Component {
@@ -12,7 +14,8 @@ class App extends Component {
           centroids:[],
           clusters:[],
           kMeans: 2,
-          nDimensions: 0
+          nDimensions: 0,
+          graph:false
       };
 
       //Bindings
@@ -190,7 +193,7 @@ updateCentroids()
 
 graph()
 {
-
+  this.setState({graph:true});
 }
 
 distance(p1,p2)
@@ -262,21 +265,45 @@ calculateInitialCentroids()
 }
 
   render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <br/>
-        <p>¿Cuantas K desea utilizar?</p>
-        <input type="text" className="form-control" name="kMeans" value={this.state.kMeans} onChange={this.setKmeansNumber} />
-        <p>¿Qué archivo desea utilizar?</p>
+    var dataSet = this.state["dataSet"];
+    if(this.state["graph"])
+      return (
+        
+        <div className="App">
+          <header className="App-header">
+            <img src={logo} className="App-logo" alt="logo" />
+            <h1 className="App-title">Welcome to React</h1>
+          </header>
+          <br/>
+          <p>¿Cuantas K desea utilizar?</p>
+          <input type="text" className="form-control" name="kMeans" value={this.state.kMeans} onChange={this.setKmeansNumber} />
+          <p>¿Qué archivo desea utilizar?</p>
 
-        <input type="file" name="file" onChange={(e)=>this.readFile(e)} />
+          <input type="file" name="file" onChange={(e)=>this.readFile(e)} />
+          
+          <P5Wrapper sketch={graph} dataSet={dataSet} />
 
-      </div>
-    );
+        </div>
+      );
+      else
+        return (
+          <div className="App">
+            <header className="App-header">
+              <img src={logo} className="App-logo" alt="logo" />
+              <h1 className="App-title">Welcome to React</h1>
+            </header>
+            <br/>
+            <p>¿Cuantas K desea utilizar?</p>
+            <input type="text" className="form-control" name="kMeans" value={this.state.kMeans} onChange={this.setKmeansNumber} />
+            <p>¿Qué archivo desea utilizar?</p>
+
+            <input type="file" name="file" onChange={(e)=>this.readFile(e)} />
+            
+           
+          </div>
+        );
+       
+
   }
 }
 
