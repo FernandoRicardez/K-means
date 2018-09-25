@@ -19,8 +19,8 @@ class App extends Component {
       this.setKmeansNumber = this.setKmeansNumber.bind(this);
       this.readFile = this.readFile.bind(this);
       this.calculateInitialCentroids = this.calculateInitialCentroids.bind(this);
-
-
+      this.kMeansAlgorithm = this.kMeansAlgorithm.bind(this);
+      this.distance = this.distance.bind(this);
 
   }
 
@@ -52,10 +52,10 @@ readFile(e)
         // console.log(i  + ':' + j +  '-->' + pointer[j]);
         // arrPoints.push(pointer[j]);
         var varname = "d"+j;
-        
+
         arrPoints[varname] = parseFloat(pointer[j]);
 
-       
+
       }
 
       dataSetee.push(arrPoints);
@@ -65,8 +65,8 @@ readFile(e)
     // console.log(dataSetee);
     this.setState({dataSet:dataSetee});
     var myJsonString = JSON.stringify(dataSetee);
- 
-    this.calculateInitialCentroids(dataSetee)    
+
+    this.calculateInitialCentroids()
   }
 
 
@@ -79,14 +79,65 @@ setKmeansNumber(event)
 
 }
 
-updateCentroids()
+kMeansAlgorithm()
 {
+
+    var dataSet = this.state["dataSet"];
+    var nDim = this.state["nDimensions"];
+    var kMeans = this.state["kMeans"];
+    var centroids = this.state["centroids"];
+    var clusters = [];
+
+    // for(var i=0;i< kMeans;i++)
+    // {
+    //   clusters.push(tempCluster);
+    // }
+    var repeat = false;
+
+      for(var i = 0; i< dataSet.length; i++)
+      {
+
+        var firstCentroid =  centroids.map(centroids => centroids[0]);
+      //  console.log(dataSet[i])
+        var distanceMin = this.distance(dataSet[i],firstCentroid);
+        var minJ = 0;
+        //console.log(firstCentroid);
+        for(var j= 0; j< kMeans; j++)
+        {
+            var point = dataSet[i]; // == 1,2,3,4
+            var centroid =  centroids.map(centroids => centroids[j]);
+            var v = this.distance(dataSet[i],centroid)
+            if(v<distanceMin)
+            {
+              distanceMin = v;
+              minJ = j;
+            }
+        }
+        // update the clusters
+        clusters.push(minJ);
+      }
+      console.log(clusters)
+
+
+
 
 }
 
-calculateInitialCentroids(dataSetee)
+distance(p1,p2)
 {
 
+  var nDim = this.state["nDimensions"];
+  var sum = 0;
+    for(var i=0; i< nDim;i++)
+    {
+      sum+= Math.pow((p1["d"+i]-p2[i]),2);
+    }
+    return Math.sqrt(sum);
+}
+
+calculateInitialCentroids()
+{
+  var dataSetee = this.state["dataSet"];
   var nDim = this.state["nDimensions"];
   var kMeans = this.state["kMeans"];
   let centroids =[];
@@ -94,35 +145,35 @@ calculateInitialCentroids(dataSetee)
 
   for(var i = 0; i<nDim;i++){
     var columnName = "d" + i;
-    var column =  dataSetee.map(dataSetee => dataSetee[columnName]);    
+    var column =  dataSetee.map(dataSetee => dataSetee[columnName]);
     var min = column[0];
     var max = column[0];
-    
-    
+
+
     for (let j = 0; j < column.length; j++) {
       let v = column[j];
       min = (v < min) ? v : min;
       max = (v > max) ? v : max;
       }
-    console.log("min: "+ min+ "  max: " + max);
+  //  console.log("min: "+ min+ "  max: " + max);
     var k2=1;
     var arr2 =[];
     for(var k =0; k < kMeans;k++)
     {
-  
+
       var distance = max-min;
       var step = distance/(kMeans*2);
-      
+
       arr2.push(min+(step*k2));
       k2+=2;
     }
     centroids.push(arr2);
-    
+
   }
 
   this.setState({centroids:centroids});
-  console.log(centroids);
-
+  console.log( centroids);
+  this.kMeansAlgorithm();
 
 
 
@@ -142,7 +193,7 @@ calculateInitialCentroids(dataSetee)
         <p>¿Qué archivo desea utilizar?</p>
 
         <input type="file" name="file" onChange={(e)=>this.readFile(e)} />
-        
+
       </div>
     );
   }
