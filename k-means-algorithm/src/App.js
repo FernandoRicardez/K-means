@@ -89,7 +89,9 @@ calculateInitialCentroids(dataSetee)
 
   var nDim = this.state["nDimensions"];
   var kMeans = this.state["kMeans"];
-  
+  let centroids =[];
+
+
   for(var i = 0; i<nDim;i++){
     var columnName = "d" + i;
     var column =  dataSetee.map(dataSetee => dataSetee[columnName]);    
@@ -97,15 +99,29 @@ calculateInitialCentroids(dataSetee)
     var max = column[0];
     
     
-    for (let j = 0, len=column.length; j < len; j++) {
+    for (let j = 0; j < column.length; j++) {
       let v = column[j];
       min = (v < min) ? v : min;
       max = (v > max) ? v : max;
+      }
+    console.log("min: "+ min+ "  max: " + max);
+    var k2=1;
+    var arr2 =[];
+    for(var k =0; k < kMeans;k++)
+    {
+  
+      var distance = max-min;
+      var step = distance/(kMeans*2);
+      
+      arr2.push(min+(step*k2));
+      k2+=2;
     }
-    
-
+    centroids.push(arr2);
     
   }
+
+  this.setState({centroids:centroids});
+  console.log(centroids);
 
 
 
