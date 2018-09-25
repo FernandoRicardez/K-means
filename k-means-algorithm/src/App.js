@@ -8,17 +8,18 @@ class App extends Component {
   {
       super(props);
       this.state = {
-          dataSet: [],
+          dataSet: {},
           centroids:[],
           clusters:[],
-          kMeans: '0',
-          fileName:''
+          kMeans: 2,
+          nDimensions: 0
       };
 
       //Bindings
       this.setKmeansNumber = this.setKmeansNumber.bind(this);
       this.readFile = this.readFile.bind(this);
       this.calculateInitialCentroids = this.calculateInitialCentroids.bind(this);
+
 
 
   }
@@ -46,24 +47,15 @@ readFile(e)
 
       // console.log(i + ' --> ' + lines[i]);
       const pointer = lines[i].split(',');
-
+      this.setState({nDimensions: pointer.length});
       for(var j = 0; j < pointer.length; j++){
         // console.log(i  + ':' + j +  '-->' + pointer[j]);
         // arrPoints.push(pointer[j]);
-        switch (j) {
-          case 0:
-            arrPoints.w = parseFloat(pointer[j]);
-            break;
-          case 1:
-            arrPoints.x = parseFloat(pointer[j]);
-            break;
-          case 2:
-            arrPoints.y = parseFloat(pointer[j]);
-            break;
-          case 3:
-            arrPoints.z = parseFloat(pointer[j]);
-            break;
-        }
+        var varname = "d"+j;
+        
+        arrPoints[varname] = parseFloat(pointer[j]);
+
+       
       }
 
       dataSetee.push(arrPoints);
@@ -71,13 +63,14 @@ readFile(e)
     }
 
     // console.log(dataSetee);
-
+    this.setState({dataSet:dataSetee});
     var myJsonString = JSON.stringify(dataSetee);
-    console.log(myJsonString);
+ 
+    this.calculateInitialCentroids(dataSetee)    
   }
 
 
-  this.calculateInitialCentroids();
+
 }
 
 setKmeansNumber(event)
@@ -91,18 +84,32 @@ updateCentroids()
 
 }
 
-calculateInitialCentroids()
+calculateInitialCentroids(dataSetee)
 {
 
-/*
-for (let i = 1, len=arr.length; i < len; i++) {
-  let v = arr[i].y;
-  min = (v < min) ? v : min;
-  max = (v > max) ? v : max;
-}
+  var nDim = this.state["nDimensions"];
+  var kMeans = this.state["kMeans"];
+  
+  for(var i = 0; i<nDim;i++){
+    var columnName = "d" + i;
+    var column =  dataSetee.map(dataSetee => dataSetee[columnName]);    
+    var min = column[0];
+    var max = column[0];
+    
+    
+    for (let j = 0, len=column.length; j < len; j++) {
+      let v = column[j];
+      min = (v < min) ? v : min;
+      max = (v > max) ? v : max;
+    }
+    
 
-return [min, max];
-*/
+    
+  }
+
+
+
+
 
 }
 
@@ -119,7 +126,7 @@ return [min, max];
         <p>¿Qué archivo desea utilizar?</p>
 
         <input type="file" name="file" onChange={(e)=>this.readFile(e)} />
-
+        
       </div>
     );
   }
