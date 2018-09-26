@@ -4,6 +4,15 @@ export default function graph(p)
     let centroids = [];
     let kMeans = 0;
     let clusters = [];
+    let minmax = [];
+    let colors = [];
+    
+    
+    let currDim1 = 0;
+    let currDim2 = 1;
+    let factor1 = 0;
+    let factor2 = 0;
+
     p.setup = function () {
         p.createCanvas(500, 500);
       };
@@ -13,33 +22,56 @@ export default function graph(p)
           dataset = props["dataSet"];
           centroids = props["centroids"];
           kMeans = props["kMeans"];
+          minmax = props["minmax"];
+          clusters = props["clusters"]
+          factor1 = 500/Math.abs(minmax[currDim1][1]-minmax[currDim1][0]);
+          factor2 = 500/Math.abs(minmax[currDim2][1]-minmax[currDim2][0]);
+
+          var colors = [];
           
+          for(var i=0;i<kMeans;i++)
+          {
+              var color = [];
+              for(var j=0;j<3;j++)
+              {
+                color[j]=  Math.floor(Math.random() * 256);
+              }
+              colors.push(color);
+          }
+          console.log("colors");
+          console.log(kMeans);
+          console.log(clusters);
+
+          console.log("colors");
         }
      
       };
     
+
       p.draw = function () {
         p.background(255);
         
         p.stroke(0);
-        p.strokeWeight(6);
+        p.strokeWeight(5);
         
         for(var i =0; i<dataset.length;i++)
         {   
-            p.point(parseInt(dataset[i]["d"+0]*5),parseInt(dataset[i]["d"+3]*5));
+            p.stroke(colors[clusters[i]]);
+            
+            p.point(parseInt((dataset[i]["d"+currDim1]-minmax[currDim1][0])*factor1),parseInt((dataset[i]["d"+currDim2]-minmax[currDim2][0])*factor2));
             
         }
         
         p.stroke(255,0,0);
-        p.strokeWeight(5);
+        p.strokeWeight(15);
         
        
         for(var i=0; i< kMeans;i++)
         {
            
-        var centroid =  centroids.map(centroids => centroids[i]);
+          var centroid =  centroids.map(centroids => centroids[i]);
           
-          p.point(parseInt(centroid[0]*5),parseInt(centroid[3]*5));
+          p.point(parseInt((centroid[currDim1]-minmax[currDim1][0])*factor1),parseInt((centroid[currDim2]-minmax[currDim2][0])*factor2));
            
         }
     

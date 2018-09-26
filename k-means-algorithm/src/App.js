@@ -15,7 +15,8 @@ class App extends Component {
           clusters:[],
           kMeans: 2,
           nDimensions: 0,
-          graph:false
+          graph:false,
+          minmax: []
       };
 
       //Bindings
@@ -98,7 +99,7 @@ kMeansAlgorithm()
     //   clusters.push(tempCluster);
     // // }
     // var repeat = false;
-    this.graph;
+    this.setState({graph:true});
 
       for(var i = 0; i< dataSet.length; i++)
       {
@@ -143,13 +144,15 @@ updateCentroids()
       var dimSum = [];
       var clusterCount = []
 
-        for(var i=0; i<nDim; i++) {
+        for(var i=0; i<nDim; i++)
+        {
           dimSum[i] = [];
-          for(var j=0; j<kMeans; j++) {
+          for(var j=0; j<kMeans; j++) 
+          {
             dimSum[i][j] = 0;
-            }
-            clusterCount[i]=0;
           }
+            clusterCount[i]=0;
+        }
 
       for(var i=0; i<dataSet.length;i++)
       {
@@ -180,12 +183,12 @@ updateCentroids()
       if(seguir)
       {
           this.setState({centroids:dimSum   });
+          // console.log( "centroids");
+          // console.log( dimSum);
           this.kMeansAlgorithm();
       }
       else {
 
-          console.log("CE finni");
-          console.log(clusters);
           this.graph();
       }
 
@@ -226,13 +229,14 @@ calculateInitialCentroids()
   var nDim = this.state["nDimensions"];
   var kMeans = this.state["kMeans"];
   let centroids =[];
-
+  var minmax = [];
 
   for(var i = 0; i<nDim;i++){
     var columnName = "d" + i;
     var column =  dataSetee.map(dataSetee => dataSetee[columnName]);
     var min = column[0];
     var max = column[0];
+    minmax[i] = [];
 
 
     for (let j = 0; j < column.length; j++) {
@@ -240,8 +244,9 @@ calculateInitialCentroids()
       min = (v < min) ? v : min;
       max = (v > max) ? v : max;
       }
+      minmax[i][0] = min;
+      minmax[i][1] = max;
   //  console.log("min: "+ min+ "  max: " + max);
-    var k2=1;
     var arr2 =[];
     for(var k =0; k < kMeans;k++)
     {
@@ -249,27 +254,24 @@ calculateInitialCentroids()
       var distance = max-min;
       var step = distance/(kMeans*2);
 
-      arr2.push(min+(step*k2));
-      k2+=2;
+      arr2.push(min+(step*(((k+1)*2)-1)));
+    
     }
     centroids.push(arr2);
 
   }
+  this.setState({minmax:minmax});
 
+  
   this.setState({centroids:centroids});
-  console.log( centroids);
+ 
   this.kMeansAlgorithm();
-
-
-
-
 }
 
   render() {
     var dataSet = this.state["dataSet"];
     if(this.state["graph"])
       return (
-        
         <div className="App">
           <header className="App-header">
             <img src={logo} className="App-logo" alt="logo" />
@@ -287,7 +289,7 @@ calculateInitialCentroids()
             
               <div className="col-sm-9 orange">    
                 <br/>
-                <P5Wrapper sketch={graph} dataSet={this.state["dataSet"]} centroids={this.state["centroids"]}  kMeans={this.state["kMeans"]} />
+                <P5Wrapper sketch={graph} clusters={this.state["clusters"]} dataSet={this.state["dataSet"]} centroids={this.state["centroids"]} minmax={this.state["minmax"]}  kMeans={this.state["kMeans"]} />
               </div>
           </div>
         </div>
