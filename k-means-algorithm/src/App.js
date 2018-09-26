@@ -99,7 +99,6 @@ kMeansAlgorithm()
     //   clusters.push(tempCluster);
     // // }
     // var repeat = false;
-    this.setState({graph:true});
 
       for(var i = 0; i< dataSet.length; i++)
       {
@@ -189,6 +188,7 @@ updateCentroids()
       }
       else {
 
+        
           this.graph();
       }
 

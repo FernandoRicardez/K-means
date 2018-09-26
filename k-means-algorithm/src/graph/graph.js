@@ -8,13 +8,15 @@ export default function graph(p)
     let colors = [];
     
     
-    let currDim1 = 0;
-    let currDim2 = 1;
+    let currDim1 = 2;
+    let currDim2 = 3;
     let factor1 = 0;
     let factor2 = 0;
 
+    
     p.setup = function () {
         p.createCanvas(500, 500);
+        p.frameRate(1);
       };
     
       p.myCustomRedrawAccordingToNewPropsHandler = function (props) {
@@ -27,22 +29,7 @@ export default function graph(p)
           factor1 = 500/Math.abs(minmax[currDim1][1]-minmax[currDim1][0]);
           factor2 = 500/Math.abs(minmax[currDim2][1]-minmax[currDim2][0]);
 
-          var colors = [];
           
-          for(var i=0;i<kMeans;i++)
-          {
-              var color = [];
-              for(var j=0;j<3;j++)
-              {
-                color[j]=  Math.floor(Math.random() * 256);
-              }
-              colors.push(color);
-          }
-          console.log("colors");
-          console.log(kMeans);
-          console.log(clusters);
-
-          console.log("colors");
         }
      
       };
@@ -53,10 +40,22 @@ export default function graph(p)
         
         p.stroke(0);
         p.strokeWeight(5);
+        var colors = [];
+          
+          for(var i=0;i<kMeans;i++)
+          {
+              var color = [];
+              for(var j=0;j<3;j++)
+              {
+                color[j]=  Math.floor(Math.random() * 256);
+              }
+              colors.push(color);
+          }
         
         for(var i =0; i<dataset.length;i++)
         {   
-            p.stroke(colors[clusters[i]]);
+          
+            p.stroke(colors[clusters[i]][0],colors[clusters[i]][1],colors[clusters[i]][2]);
             
             p.point(parseInt((dataset[i]["d"+currDim1]-minmax[currDim1][0])*factor1),parseInt((dataset[i]["d"+currDim2]-minmax[currDim2][0])*factor2));
             
@@ -75,6 +74,8 @@ export default function graph(p)
            
         }
     
+        ;
+
    
       };
     
