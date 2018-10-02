@@ -272,6 +272,7 @@ calculateInitialCentroids()
     var arr2 =[];
     for(var k =0; k < kMeans;k++)
     {
+      var count = dataSetee.length;
 
       var distance = max-min;
       var step = distance/(kMeans*2);
