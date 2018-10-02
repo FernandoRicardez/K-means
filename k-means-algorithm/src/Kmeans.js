@@ -6,6 +6,8 @@ import './App.css';
 import Button from '@material-ui/core/Button';  
 import TextField from '@material-ui/core/TextField'
 import Input from '@material-ui/core/Input';
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
 
 
 const styles = theme => ({
@@ -295,8 +297,9 @@ calculateInitialCentroids()
     if(this.state["graph"])
       return (
         <div className="App">
-            <div className="row">
-              <div className="col-sm-3">
+         <Grid container spacing={24}>
+         <Grid item xs={6}>
+         <div className="col-sm-3">
                 <p>¿Cuantas K desea utilizar?</p>
                 <TextField
                 id="kMeans"
@@ -318,30 +321,36 @@ calculateInitialCentroids()
                   </Button>
                 </label> 
               </div>
-            
-              <div className="col-sm-9 orange">    
+        </Grid>
+        <Grid item xs={6}>
+        <div className="col-sm-9 orange">    
                 <br/>
                 <P5Wrapper sketch={graph} clusters={this.state["clusters"]} dataSet={this.state["dataSet"]} centroids={this.state["centroids"]} minmax={this.state["minmax"]}  kMeans={this.state["kMeans"]} />
               </div>
-          </div>
+        </Grid>
+         </Grid>
         </div>
       );
       else
         return (
           <div className="App">
-            <br/>
-            <div className="row">
-              <div className="col-sm-3">
-              <p>¿Cuantas K desea utilizar?</p>
+          <Grid container spacing={24}>
+            <Grid item xs={6}>
+            <div className="col-sm-3">
+            <Paper elevation={3}>
+            <p>¿Cuantas K desea utilizar?</p>
               <TextField
                 id="kMeans"
                 name="kMeans" 
                 value={this.state.kMeans} 
                 onChange={this.setKmeansNumber}
               />
-              <p>¿Qué archivo desea utilizar?</p>
+            </Paper>
+            
+            <Paper elevation={3}>
+            <p>¿Qué archivo desea utilizar?</p>
 
-              </div>
+              
                 <Input
                   onChange={(e)=>this.readFile(e)} 
                   id="file"
@@ -352,12 +361,20 @@ calculateInitialCentroids()
                   Upload
                 </Button>
               </label> 
+            </Paper>
+            </div>
+              
+            </Grid>
+            <Grid item xs={6}>
               <div className="col-sm-9 orange" >Seleccione un archivo para continuar
               </div>
+            </Grid>
+         </Grid>
+            <br/>
+            <div className="row">
+              
+              
             </div>
-            <Button variant="contained" color="primary">
-            Hello World
-            </Button>
           </div>
           
         );

@@ -4,9 +4,7 @@ import P5Wrapper from 'react-p5-wrapper';
 import graph from './graph/graph';
 import kMeans from './Kmeans';
 import './App.css';
-import Button from '@material-ui/core/Button';  
-import TextField from '@material-ui/core/TextField'
-import Input from '@material-ui/core/Input';
+import Snackbar from '@material-ui/core/Snackbar';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
@@ -85,7 +83,7 @@ handleChange = (event, value) => {
       return (
           <div>
             <AppBar position="static">
-                <Tabs value={value} onChange={this.handleChange}>
+                <Tabs value={value} onChange={this.handleChange}centered>
                   <Tab value="one" label="kMeans" />
                   <Tab value="two" label="Vectores" />
                 </Tabs>
@@ -98,6 +96,7 @@ handleChange = (event, value) => {
                 <h1>Vectors</h1>
                 <Vectors/>
               </TabContainer>}
+              
           </div>
         );
   }

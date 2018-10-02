@@ -6,6 +6,8 @@ import './App.css';
 import Button from '@material-ui/core/Button';  
 import TextField from '@material-ui/core/TextField'
 import Input from '@material-ui/core/Input';
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
 
 
 const styles = theme => ({
@@ -300,19 +302,26 @@ calculateInitialvectors()
       else
         return (
           <div className="App">
-            <br/>
-            <div className="row">
+          <div className="row">
               <div className="col-sm-3">
-              <p>¿Cuantos vectores desea utilizar?</p>
+          <Grid container spacing={24}>
+          <Grid item xs ={6}>
+          <div className="col-sm-9 orange" >Seleccione un archivo para continuar
+              </div>
+          </Grid>
+          <Grid item xs={6}>
+
+          <Paper elevation={3}>
+          <p>¿Cuantos vectores desea utilizar?</p>
               <TextField
                 id="nVectors"
                 name="nVectors" 
                 value={this.state.nVectors} 
                 onChange={this.setVectorsNumber}
               />
-              <p>¿Qué archivo desea utilizar?</p>
-
-              </div>
+          </Paper>
+          <Paper elevation={3}>
+          <p>¿Qué archivo desea utilizar?</p>
                 <Input
                   onChange={(e)=>this.readFile(e)} 
                   id="file"
@@ -322,13 +331,25 @@ calculateInitialvectors()
                 <Button variant="raised" component="span" >
                   Upload
                 </Button>
-              </label> 
-              <div className="col-sm-9 orange" >Seleccione un archivo para continuar
+              </label>
+          </Paper>
+          </Grid>
+          
+          
+          
+          
+          </Grid>
+            <br/>
+            
+              
+              
+
+              
+              
               </div>
+              
             </div>
-            <Button variant="contained" color="primary">
-            Hello World
-            </Button>
+            
           </div>
           
         );
