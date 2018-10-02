@@ -270,14 +270,11 @@ calculateInitialCentroids()
       minmax[i][1] = max;
   //  console.log("min: "+ min+ "  max: " + max);
     var arr2 =[];
+    var potentialCentroid = dataSetee[ Math.floor(Math.random() * dataSetee.length)];
     for(var k =0; k < kMeans;k++)
     {
-      var count = dataSetee.length;
 
-      var distance = max-min;
-      var step = distance/(kMeans*2);
-
-      arr2.push(min+(step*(((k+1)*2)-1)));
+      arr2.push(potentialCentroid["d"+k]);
     
     }
     centroids.push(arr2);
