@@ -3,6 +3,28 @@ import logo from './logo.svg';
 import P5Wrapper from 'react-p5-wrapper';
 import graph from './graph/graph';
 import './App.css';
+import Button from '@material-ui/core/Button';  
+import TextField from '@material-ui/core/TextField'
+import Input from '@material-ui/core/Input';
+
+
+const styles = theme => ({
+  container: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+  textField: {
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
+    width: 200,
+  },
+  dense: {
+    marginTop: 19,
+  },
+  menu: {
+    width: 200,
+  },
+});
 
 class App extends Component {
 
@@ -268,6 +290,8 @@ calculateInitialCentroids()
   this.kMeansAlgorithm();
 }
 
+
+
   render() {
     var dataSet = this.state["dataSet"];
     if(this.state["graph"])
@@ -281,10 +305,25 @@ calculateInitialCentroids()
             <div className="row">
               <div className="col-sm-3">
                 <p>¿Cuantas K desea utilizar?</p>
-                <input type="text" className="form-control" name="kMeans" value={this.state.kMeans} onChange={this.setKmeansNumber} />
+                <TextField
+                id="kMeans"
+                label="kMeans Number"
+                name="kMeans" 
+                value={this.state.kMeans} 
+                onChange={this.setKmeansNumber}
+                />
                 <p>¿Qué archivo desea utilizar?</p>
 
-                <input type="file" name="file" onChange={(e)=>this.readFile(e)} />
+                <input
+                  id="file"
+                  type="file"
+                  onChange={(e)=>this.readFile(e)}
+                />
+                <label htmlFor="raised-button-file">
+                  <Button variant="raised" component="span" >
+                  Upload
+                  </Button>
+                </label> 
               </div>
             
               <div className="col-sm-9 orange">    
@@ -305,16 +344,31 @@ calculateInitialCentroids()
             <div className="row">
               <div className="col-sm-3">
               <p>¿Cuantas K desea utilizar?</p>
-              <input type="text" className="form-control" name="kMeans" value={this.state.kMeans} onChange={this.setKmeansNumber} />
+              <TextField
+                id="kMeans"
+                name="kMeans" 
+                value={this.state.kMeans} 
+                onChange={this.setKmeansNumber}
+              />
               <p>¿Qué archivo desea utilizar?</p>
 
-              <input type="file" name="file" onChange={(e)=>this.readFile(e)} />
               </div>
-
+              <Input
+                onChange={(e)=>this.readFile(e)} 
+                id="file"
+                type="file"
+              />
+              <label htmlFor="file">
+                <Button variant="raised" component="span" >
+                  Upload
+                </Button>
+              </label> 
               <div className="col-sm-9 orange" >Seleccione un archivo para continuar
               </div>
             </div>
-           
+            <Button variant="contained" color="primary">
+            Hello World
+            </Button>
           </div>
           
         );
