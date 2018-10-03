@@ -105,9 +105,10 @@ readFile(e)
 }
 
 setKmeansNumber(event)
-{
+{ 
+  this.setState({graph: false});
   this.setState({kMeans: event.target.value});
-
+  //this.calculateInitialCentroids();
 }
 
 kMeansAlgorithm()
@@ -318,19 +319,19 @@ calculateInitialCentroids()
                 value={this.state.kMeans} 
                 onChange={this.setKmeansNumber}
                 />
-                <p>¿Qué archivo desea utilizar?</p>
+                  {/* <p>¿Qué archivo desea utilizar?</p>
 
-                 {/* <input
-                  id="file"
-                  type="file"
-                  onChange={(e)=>this.readFile(e)}
-                /> */}
-                <label htmlFor="raised-button-file">
-                  <Button variant="raised" component="span" >
-                  Upload
-                  </Button>
-                </label> 
-                 {this.state["clusterCount"].map(function(x,i=1){return <p>cluster {i++}: {x}</p>})}
+                  <input
+                    id="file"
+                    type="file"
+                    onChange={(e)=>this.readFile(e)}
+                  />
+                  <label htmlFor="raised-button-file">
+                    <Button variant="raised" component="span" >
+                    Upload
+                    </Button>
+                  </label>  */}
+                 {this.state["clusterCount"].map(function(x,i=1){return <p>cluster {++i}: {x}</p>})}
        
               </div>
         </Grid>
