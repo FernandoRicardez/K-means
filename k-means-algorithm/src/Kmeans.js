@@ -40,7 +40,8 @@ class Kmeans extends Component {
           kMeans: 2,
           nDimensions: 0,
           graph:false,
-          minmax: []
+          minmax: [],
+          clusterCount:[]
       };
 
       //Bindings
@@ -205,6 +206,7 @@ updateCentroids()
       }
       if(seguir)
       {
+        this.setState({clusterCount:clusterCount});
           this.setState({centroids:dimSum   });
           // console.log( "centroids");
           // console.log( dimSum);
@@ -320,13 +322,15 @@ calculateInitialCentroids()
                   Upload
                   </Button>
                 </label> 
+                <p> {this.state["clusterCount"]}</p>
+
               </div>
         </Grid>
         <Grid item xs={6}>
         <div className="col-sm-9 orange">    
                 <br/>
                 <P5Wrapper sketch={graph} clusters={this.state["clusters"]} dataSet={this.state["dataSet"]} centroids={this.state["centroids"]} minmax={this.state["minmax"]}  kMeans={this.state["kMeans"]} />
-              </div>
+                             </div>
         </Grid>
          </Grid>
         </div>
