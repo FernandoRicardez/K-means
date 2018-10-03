@@ -128,7 +128,7 @@ kMeansAlgorithm()
       for(var i = 0; i< dataSet.length; i++)
       {
 
-        var firstCentroid =  centroids.map(centroids => centroids[0]);
+        var firstCentroid =  centroids[0];
       //  console.log(dataSet[i])
         var distanceMin = this.distance(dataSet[i],firstCentroid);
         var minJ = 0;
@@ -136,7 +136,7 @@ kMeansAlgorithm()
         for(var j= 0; j< kMeans; j++)
         {
             var point = dataSet[i]; // == 1,2,3,4
-            var centroid =  centroids.map(centroids => centroids[j]);
+            var centroid =  centroids[j];
             var v = this.distance(dataSet[i],centroid)
             if(v<distanceMin)
             {
@@ -168,14 +168,18 @@ updateCentroids()
       var dimSum = [];
       var clusterCount = []
 
-        for(var i=0; i<nDim; i++)
+
+        for(var i=0; i<kMeans; i++)
         {
+          
+          clusterCount[i]=0;
           dimSum[i] = [];
-          for(var j=0; j<kMeans; j++) 
+          for(var j=0; j<nDim; j++) 
           {
             dimSum[i][j] = 0;
+            
           }
-            clusterCount[i]=0;
+          
         }
 
       for(var i=0; i<dataSet.length;i++)
@@ -184,21 +188,21 @@ updateCentroids()
           clusterCount[cluster]++;
           for(var j=0; j<nDim;j++)
           {
-            dimSum[j][cluster]+= dataSet[i]["d"+j];
+            dimSum[cluster][j]+= dataSet[i]["d"+j];
           }
       }
       for(var i=0; i<kMeans;i++)
       {
         for(var j=0;j<nDim;j++)
         {
-          dimSum[j][i]/= clusterCount[i];
+          dimSum[i][j]/= clusterCount[i];
         }
       }
       //console.log(dimSum);
       var seguir = false;
       for (var i = 0; i < kMeans; i++) {
-          var oldCentroid =  centroids.map(centroids => centroids[i]);
-          var  newCentroid = dimSum.map(dimSum => dimSum[i]);
+          var oldCentroid =   centroids[i];
+          var  newCentroid = dimSum[i];
           if(this.distance2(oldCentroid,newCentroid) > 0.01)
           {
             seguir = true;
@@ -273,19 +277,23 @@ calculateInitialCentroids()
       minmax[i][0] = min;
       minmax[i][1] = max;
   //  console.log("min: "+ min+ "  max: " + max);
-    var arr2 =[];
-    var potentialCentroid = dataSetee[ Math.floor(Math.random() * dataSetee.length)];
-    for(var k =0; k < kMeans;k++)
-    {
-
-      arr2.push(potentialCentroid["d"+k]);
-    
-    }
-    centroids.push(arr2);
 
   }
   this.setState({minmax:minmax});
 
+  for(var k =0; k < kMeans;k++)
+  {
+    
+  var arr2 =[];
+    var potentialCentroid = dataSetee[ Math.floor(Math.random() * dataSetee.length)];
+    for(var l=0;l<nDim;l++)
+    {
+      arr2.push(potentialCentroid["d"+l]); 
+    }
+    
+  centroids.push(arr2);
+  }
+  console.log(centroids);;
   
   this.setState({centroids:centroids});
  
@@ -322,8 +330,8 @@ calculateInitialCentroids()
                   Upload
                   </Button>
                 </label> 
-                <p> {this.state["clusterCount"]}</p>
-
+                 {this.state["clusterCount"].map(function(x,i=1){return <p>cluster {i++}: {x}</p>})}
+       
               </div>
         </Grid>
         <Grid item xs={6}>

@@ -13,27 +13,28 @@ export default function graph(p)
     let factor1 = 0;
     let factor2 = 0;
 
-    
+
+    p.myCustomRedrawAccordingToNewPropsHandler = function (props) {
+      if (props["dataSet"]){
+        dataset = props["dataSet"];
+        centroids = props["centroids"];
+        kMeans = props["kMeans"];
+        minmax = props["minmax"];
+        clusters = props["clusters"]
+        factor1 = 500/Math.abs(minmax[currDim1][1]-minmax[currDim1][0]);
+        factor2 = 500/Math.abs(minmax[currDim2][1]-minmax[currDim2][0]);
+
+        
+      }
+   
+    };
+  
     p.setup = function () {
         p.createCanvas(500, 500);
         p.frameRate(1);
       };
     
-      p.myCustomRedrawAccordingToNewPropsHandler = function (props) {
-        if (props["dataSet"]){
-          dataset = props["dataSet"];
-          centroids = props["centroids"];
-          kMeans = props["kMeans"];
-          minmax = props["minmax"];
-          clusters = props["clusters"]
-          factor1 = 500/Math.abs(minmax[currDim1][1]-minmax[currDim1][0]);
-          factor2 = 500/Math.abs(minmax[currDim2][1]-minmax[currDim2][0]);
 
-          
-        }
-     
-      };
-    
 
       p.draw = function () {
         p.background(255);
@@ -68,14 +69,11 @@ export default function graph(p)
         for(var i=0; i< kMeans;i++)
         {
            
-          var centroid =  centroids.map(centroids => centroids[i]);
+          var centroid =   centroids[i];
           
           p.point(parseInt((centroid[currDim1]-minmax[currDim1][0])*factor1),parseInt((centroid[currDim2]-minmax[currDim2][0])*factor2));
            
-        }
-    
-        ;
-
+        };
    
       };
     
