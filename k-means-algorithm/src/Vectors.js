@@ -37,7 +37,8 @@ class nVectors extends Component {
           dataSet: {},
           vectors:[],
           clusters:[],
-          nVectors: 6,
+          nVectors: 10,
+          nTimes:50,
           nDimensions: 0,
           graph:false,
           minmax: [],
@@ -53,6 +54,7 @@ class nVectors extends Component {
       this.sumVector = this.sumVector.bind(this);
       this.categorize = this.categorize.bind(this);
       this.graph = this.graph.bind(this);
+      this.setTimesNumber = this.setTimesNumber.bind(this);
   }
 
 
@@ -100,13 +102,16 @@ readFile(e)
     this.calculateInitialvectors()
   }
 
-
-
 }
 
 setVectorsNumber(event)
 {
   this.setState({nVectors: event.target.value});
+
+}
+setTimesNumber(event)
+{
+  this.setState({nTimes: event.target.value});
 
 }
 
@@ -117,9 +122,10 @@ VectorsAlgorithm()
     var nDim = this.state["nDimensions"];
     var nVectors = this.state["nVectors"];
     var vectors = this.state["vectors"];
+    var nTimes = this.state["nTimes"];
     var clusters = [];
 
-    for(var nVeces=0;nVeces<50;nVeces++)
+    for(var nVeces=0;nVeces<nTimes;nVeces++)
     {
 
         var firstVector =  vectors[0];
@@ -143,6 +149,8 @@ VectorsAlgorithm()
 
       this.setState({vectors:vectors});
     } 
+    console.log("vectors");
+    console.log(vectors);
     this.categorize();
 
 
@@ -150,8 +158,7 @@ VectorsAlgorithm()
 
 sumVector(v1,v2)    
 {
-    console.log("vectors")
-    console.log(v1)
+   
     var nDim = this.state["nDimensions"];
     
     for(var i =0;i<nDim;i++)
@@ -169,41 +176,83 @@ categorize()
       var nDim = this.state["nDimensions"];
       var nVectors = this.state["nVectors"];
       var vectors = this.state["vectors"];
+
       var clusters = [];
     var clusterCount = [];
       for(var i=0; i<nVectors;i++)
       {
         clusterCount[i]=0;
       }
-      for(var i=0; i<dataSet.length;i++)
+      // for(var i=0; i<dataSet.length;i++)
+      // {
+      //  //Calcular max W
+      //  var firstVector =  vectors[0];
+      //  //  console.log(dataSet[i])
+      //    var pointProductMax = this.pointProduct(dataSet[i],firstVector);
+      //    var maxJ = 0;
+      //    //console.log(firstCentroid);
+      //    for(var j= 0; j< nVectors; j++)
+      //    {
+      //        var point = dataSet[i]; // == 1,2,3,4
+      //        var currVector = vectors[j]
+      //        var v = this.pointProduct(dataSet[i],currVector)
+      //        if(v>pointProductMax)
+      //        {
+      //          pointProductMax = v;
+      //          maxJ = j;
+      //        }
+             
+            
+      //    }
+      //    clusterCount[maxJ]++;
+      //    clusters[i] = maxJ;
+      // }
+
+      for(var i = 0; i< dataSet.length; i++)
       {
-       //Calcular max W
-       var firstVector =  vectors[0];
-       //  console.log(dataSet[i])
-         var pointProductMax = this.pointProduct(dataSet[i],firstVector);
-         var maxJ = 0;
-         //console.log(firstCentroid);
-         for(var j= 0; j< nVectors; j++)
-         {
-             var point = dataSet[i]; // == 1,2,3,4
-             var currVector = vectors[j]
-             var v = this.pointProduct(dataSet[i],currVector)
-             if(v>pointProductMax)
-             {
-               pointProductMax = v;
-               maxJ = j;
-             }
-         }
-         clusters[i] = maxJ;
-        clusterCount[maxJ]++;
+
+        var firstVector =  vectors[0];
+
+        var distanceMin = this.distance(dataSet[i],firstVector);
+        var minJ = 0;
+        for(var j= 0; j< nVectors; j++)
+        {
+            var point = dataSet[i]; // == 1,2,3,4
+            var currVector =  vectors[j];
+            var v = this.distance(dataSet[i],currVector)
+            if(v<distanceMin)
+            {
+              distanceMin = v;
+              minJ = j;
+            }
+        }
+        // update the clusters
+        clusters[i] = minJ;
+        clusterCount[minJ]++;
+
+
       }
       
+      console.log(clusters);
       this.setState({clusters:clusters});
   
       this.setState({clusterCount:clusterCount});
   
       this.graph();
       
+
+}
+
+distance(v1,v2)
+{
+  
+  var nDim = this.state["nDimensions"];
+  var sum = 0;
+    for(var i=0; i< nDim;i++)
+    {
+      sum+= Math.pow((v1["d"+i]-v2["d"+i]),2);
+    }
+    return Math.sqrt(sum);
 
 }
 
@@ -274,7 +323,7 @@ calculateInitialvectors()
         <div className="App">
             <div className="row">
               <div className="col-sm-3">
-                <p>¿Cuantos vectores desea utilizar?</p>
+              <p>¿Cuantos vectores desea utilizar?</p>
                 <TextField
                 id="nVectors"
                 label="nVectors Number"
@@ -282,6 +331,7 @@ calculateInitialvectors()
                 value={this.state.nVectors} 
                 onChange={this.setVectorsNumber}
                 />
+         
                 <p>¿Qué archivo desea utilizar?</p>
 
                  {/* <input
@@ -326,6 +376,15 @@ calculateInitialvectors()
                 onChange={this.setVectorsNumber}
               />
           </Paper>
+          <p>¿Cuantas veces se realizará el entrenaimento?</p>
+                <TextField
+                id="nVectors"
+                label="nVectors Number"
+                name="nVectors" 
+                value={this.state.nTimes} 
+                onChange={this.TimesNumber}
+                />
+         
           <Paper elevation={3}>
           <p>¿Qué archivo desea utilizar?</p>
                 <Input
