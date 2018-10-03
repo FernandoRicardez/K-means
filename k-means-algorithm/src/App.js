@@ -46,59 +46,57 @@ const styles = theme => ({
 
 class App extends Component {
 
-  constructor(props)
-  {
-      super(props);
-      this.state = {
-          Algorithm: true
-      };
+  constructor(props) {
+    super(props);
+    this.state = {
+      Algorithm: true
+    };
 
-      //Bindings
-      this.setAlgorithm = this.setAlgorithm.bind(this);
-    
+    //Bindings
+    this.setAlgorithm = this.setAlgorithm.bind(this);
+
   }
 
 
-//Kmeans Algorithm
+  //Kmeans Algorithm
 
-//Read data file
-
-
-setAlgorithm(event)
-{
-  var newState = this.state["Algorithm"];
-  newState = !newState
-  this.setState({Algorithm: newState});
-
-}
-
-handleChange = (event, value) => {
-  this.setState({ value });
-};
+  //Read data file
 
 
-  render() {  
+  setAlgorithm(event) {
+    var newState = this.state["Algorithm"];
+    newState = !newState
+    this.setState({ Algorithm: newState });
+
+  }
+
+  handleChange = (event, value) => {
+    this.setState({ value });
+  };
+
+
+  render() {
     var state = this.state["Algorithm"]
     const { value } = this.state;
-      return (
-          <div>
-            <AppBar position="static">
-                <Tabs value={value} onChange={this.handleChange}centered>
-                  <Tab value="one" label="kMeans" />
-                  <Tab value="two" label="Vectores" />
-                </Tabs>
-              </AppBar>
-              {value === 'one' && <TabContainer>
-                <h1>Kmeans</h1>
-                <Kmeans/>
-              </TabContainer>}
-              {value === 'two' && <TabContainer>
-                <h1>Vectors</h1>
-                <Vectors/>
-              </TabContainer>}
-              
-          </div>
-        );
+    return (
+      <div>
+        <AppBar position="static">
+          <Tabs value={value} onChange={this.handleChange} centered>
+            <Tab value="one" label="kMeans" />
+            <Tab value="two" label="Vectores" />
+          </Tabs>
+        </AppBar>
+        {value === 'one' && <TabContainer>
+          <h1>Kmeans</h1>
+          <Kmeans />
+        </TabContainer>}
+        {value === 'two' && <TabContainer>
+          <h1>Vectors</h1>
+          <Vectors />
+        </TabContainer>}
+
+      </div>
+    );
   }
 }
 

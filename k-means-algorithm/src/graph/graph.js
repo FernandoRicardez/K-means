@@ -8,8 +8,8 @@ export default function graph(p)
     let colors = [];
     
     
-    let currDim1 = 2;
-    let currDim2 = 3;
+    let currDim1 = 0;
+    let currDim2 = 1;
     let factor1 = 0;
     let factor2 = 0;
 
@@ -23,6 +23,8 @@ export default function graph(p)
         clusters = props["clusters"]
         factor1 = 500/Math.abs(minmax[currDim1][1]-minmax[currDim1][0]);
         factor2 = 500/Math.abs(minmax[currDim2][1]-minmax[currDim2][0]);
+        currDim1 = props["dimUno"];
+        currDim2 = props["dimDos"];
 
         
       }
