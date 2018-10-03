@@ -40,7 +40,8 @@ class nVectors extends Component {
           nVectors: 6,
           nDimensions: 0,
           graph:false,
-          minmax: []
+          minmax: [],
+          clusterCount:[]
       };
 
       //Bindings
@@ -120,19 +121,16 @@ VectorsAlgorithm()
 
     for(var nVeces=0;nVeces<50;nVeces++)
     {
-      for(var i = 0; i< dataSet.length; i++)
-      {
 
         var firstVector =  vectors[0];
-      
-        var pointProductMax = this.pointProduct(dataSet[i],firstVector);
+        var currPoint = dataSet[Math.floor(Math.random() * dataSet.length)];
+        var pointProductMax = this.pointProduct(currPoint,firstVector);
         var maxJ = 0;
         //console.log(firstCentroid);
         for(var j= 0; j< nVectors; j++)
         {
-            var point = dataSet[i]; // == 1,2,3,4
             var currVector = vectors[j]
-            var v = this.pointProduct(dataSet[i],currVector)
+            var v = this.pointProduct(currPoint,currVector)
             if(v>pointProductMax)
             {
               pointProductMax = v;
@@ -140,10 +138,9 @@ VectorsAlgorithm()
             }
         }
         // update the clusters
-        vectors[maxJ]=this.sumVector(vectors[maxJ],dataSet[i]);
+        vectors[maxJ]=this.sumVector(vectors[maxJ],currPoint);
 
 
-      }
       this.setState({vectors:vectors});
     } 
     this.categorize();
@@ -173,7 +170,11 @@ categorize()
       var nVectors = this.state["nVectors"];
       var vectors = this.state["vectors"];
       var clusters = [];
-      
+    var clusterCount = [];
+      for(var i=0; i<nVectors;i++)
+      {
+        clusterCount[i]=0;
+      }
       for(var i=0; i<dataSet.length;i++)
       {
        //Calcular max W
@@ -194,9 +195,12 @@ categorize()
              }
          }
          clusters[i] = maxJ;
+        clusterCount[maxJ]++;
       }
       
       this.setState({clusters:clusters});
+  
+      this.setState({clusterCount:clusterCount});
   
       this.graph();
       
@@ -290,6 +294,8 @@ calculateInitialvectors()
                   Upload
                   </Button>
                 </label> 
+                {this.state["clusterCount"].map(function(x,i=1){return <p>cluster {++i}: {x}</p>})}
+       
               </div>
             
               <div className="col-sm-9 orange">    

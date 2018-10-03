@@ -42,7 +42,7 @@ export default function graph(p)
         p.stroke(0);
         p.strokeWeight(5);
         var colors = [];
-          
+         
           for(var i=0;i<kMeans;i++)
           {
               var color = [];
@@ -53,9 +53,10 @@ export default function graph(p)
               colors.push(color);
           }
         
+         
+          
         for(var i =0; i<dataset.length;i++)
         {   
-          
             p.stroke(colors[clusters[i]][0],colors[clusters[i]][1],colors[clusters[i]][2]);
             
             p.point(parseInt((dataset[i]["d"+currDim1]-minmax[currDim1][0])*factor1),parseInt((dataset[i]["d"+currDim2]-minmax[currDim2][0])*factor2));
@@ -71,8 +72,17 @@ export default function graph(p)
            
           var centroid =   centroids[i];
           
+        p.stroke(255,0,0);
           p.point(parseInt((centroid[currDim1]-minmax[currDim1][0])*factor1),parseInt((centroid[currDim2]-minmax[currDim2][0])*factor2));
-           
+          
+        p.stroke(255,255,255);
+          p.fill(20);
+          // p.textSize(10);
+          // p.text("x:"+minmax[currDim1][0], 10, 10);;
+          // p.text("x:" +minmax[currDim1][1], 10, 490);;
+          // p.text("y2:"+minmax[currDim2][0], 490, 10);;
+          // p.text("y1:"+minmax[currDim2][1], 10, 490);;
+          
         };
    
       };
