@@ -25,11 +25,11 @@ export default function graph(p) {
       kMeans = props["kMeans"];
       minmax = props["minmax"];
       clusters = props["clusters"]
-      factor1 = 500 / Math.abs(minmax[currDim1][1] - minmax[currDim1][0]);
-      factor2 = 500 / Math.abs(minmax[currDim2][1] - minmax[currDim2][0]);
       currDim1 = props["dimUno"];
       currDim2 = props["dimDos"];
 
+      factor1 = 500 / Math.abs(minmax[currDim1][1] - minmax[currDim1][0]);
+      factor2 = 500 / Math.abs(minmax[currDim2][1] - minmax[currDim2][0]);
     }
 
   };
@@ -68,10 +68,7 @@ export default function graph(p) {
 
       p.point(parseInt((centroid["d" + currDim1] - minmax[currDim1][0]) * factor1), parseInt((centroid["d" + currDim2] - minmax[currDim2][0]) * factor2));
 
-    }
-
-    ;
-
+    };
 
   };
 

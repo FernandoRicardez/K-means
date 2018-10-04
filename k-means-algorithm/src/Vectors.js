@@ -10,6 +10,7 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
+import { func } from 'prop-types';
 
 
 const styles = theme => ({
@@ -55,7 +56,7 @@ class nVectors extends Component {
     this.calculateInitialvectors = this.calculateInitialvectors.bind(this);
     this.VectorsAlgorithm = this.VectorsAlgorithm.bind(this);
     this.pointProduct = this.pointProduct.bind(this);
-    this.sumVector = this.sumVector.bind(this);
+    this.sumAndNormalizeVectors = this.sumAndNormalizeVectors.bind(this);
     this.categorize = this.categorize.bind(this);
     this.graph = this.graph.bind(this);
     this.setTimesNumber = this.setTimesNumber.bind(this);
@@ -145,9 +146,10 @@ class nVectors extends Component {
         }
       }
       // update the clusters
-      vectors[maxJ] = this.sumVector(vectors[maxJ], currPoint);
+      vectors[maxJ] = this.sumAndNormalizeVectors(vectors[maxJ], currPoint);
+     
 
-
+     
       this.setState({ vectors: vectors });
     }
     console.log("vectors");
@@ -157,16 +159,24 @@ class nVectors extends Component {
 
   }
 
-  sumVector(v1, v2) {
+  sumAndNormalizeVectors(v1, v2) {
 
     var nDim = this.state["nDimensions"];
 
     for (var i = 0; i < nDim; i++) {
       v1["d" + i] = v1["d" + i] + v2["d" + i];
     }
-
-    return v1;
+    
+    var sum = 0;
+    for (var i = 0; i < nDim; i++) {
+      sum += Math.pow((v1["d" + i]), 2);
+    }
+    sum = Math.sqrt(sum); 
+    for (var i = 0; i < nDim; i++) {
+      v1["d"+i] = (v1["d" + i]/sum);
   }
+  return (v1);
+}
 
   categorize() {
 
@@ -180,54 +190,53 @@ class nVectors extends Component {
     for (var i = 0; i < nVectors; i++) {
       clusterCount[i] = 0;
     }
-    // for(var i=0; i<dataSet.length;i++)
-    // {
-    //  //Calcular max W
-    //  var firstVector =  vectors[0];
-    //  //  console.log(dataSet[i])
-    //    var pointProductMax = this.pointProduct(dataSet[i],firstVector);
-    //    var maxJ = 0;
-    //    //console.log(firstCentroid);
-    //    for(var j= 0; j< nVectors; j++)
-    //    {
-    //        var point = dataSet[i]; // == 1,2,3,4
-    //        var currVector = vectors[j]
-    //        var v = this.pointProduct(dataSet[i],currVector)
-    //        if(v>pointProductMax)
-    //        {
-    //          pointProductMax = v;
-    //          maxJ = j;
-    //        }
+    for(var i=0; i<dataSet.length;i++)
+    {
+     //Calcular max W
+     var firstVector =  vectors[0];
+     //  console.log(dataSet[i])
+       var pointProductMax = this.pointProduct(dataSet[i],firstVector);
+       var maxJ = 0;
+       //console.log(firstCentroid);
+       for(var j= 0; j< nVectors; j++)
+       {
+           var point = dataSet[i]; // == 1,2,3,4
+           var currVector = vectors[j]
+           var v = this.pointProduct(dataSet[i],currVector)
+           if(v>pointProductMax)
+           {
+             pointProductMax = v;
+             maxJ = j;
+           }
 
 
-    //    }
-    //    clusterCount[maxJ]++;
-    //    clusters[i] = maxJ;
-    // }
-
-    for (var i = 0; i < dataSet.length; i++) {
-
-      var firstVector = vectors[0];
-
-      var distanceMin = this.distance(dataSet[i], firstVector);
-      var minJ = 0;
-      for (var j = 0; j < nVectors; j++) {
-        var point = dataSet[i]; // == 1,2,3,4
-        var currVector = vectors[j];
-        var v = this.distance(dataSet[i], currVector)
-        if (v < distanceMin) {
-          distanceMin = v;
-          minJ = j;
-        }
-      }
-      // update the clusters
-      clusters[i] = minJ;
-      clusterCount[minJ]++;
-
-
+       }
+       clusterCount[maxJ]++;
+       clusters[i] = maxJ;
     }
 
-    console.log(clusters);
+    // for (var i = 0; i < dataSet.length; i++) {
+
+    //   var firstVector = vectors[0];
+
+    //   var distanceMin = this.distance(dataSet[i], firstVector);
+    //   var minJ = 0;
+    //   for (var j = 0; j < nVectors; j++) {
+    //     var point = dataSet[i]; // == 1,2,3,4
+    //     var currVector = vectors[j];
+    //     var v = this.distance(dataSet[i], currVector)
+    //     if (v < distanceMin) {
+    //       distanceMin = v;
+    //       minJ = j;
+    //     }
+    //   }
+    //   // update the clusters
+    //   clusters[i] = minJ;
+    //   clusterCount[minJ]++;
+
+
+    // }
+
     this.setState({ clusters: clusters });
 
     this.setState({ clusterCount: clusterCount });

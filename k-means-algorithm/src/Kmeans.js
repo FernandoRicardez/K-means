@@ -322,7 +322,7 @@ class Kmeans extends Component {
                   value={this.state.kMeans}
                   onChange={this.setKmeansNumber}
                 />
-                <h3>Número de iteraciones: {this.state["iterationNumber"]}</h3>
+                <h3>Número de iteraciones: {0/3}</h3>
                 {/* <p>¿Qué archivo desea utilizar?</p>
 
                   <input
