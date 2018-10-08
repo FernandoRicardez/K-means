@@ -1,16 +1,13 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import P5Wrapper from 'react-p5-wrapper';
-import graph from './graph/graph';
-import kMeans from './Kmeans';
 import './App.css';
-import Snackbar from '@material-ui/core/Snackbar';
+// import Snackbar from '@material-ui/core/Snackbar';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import PropTypes from 'prop-types';
 import Kmeans from './Kmeans';
 import Vectors from './Vectors';
+import Photo from './Photo';
 import Typography from '@material-ui/core/Typography';
 
 
@@ -26,23 +23,23 @@ TabContainer.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
-const styles = theme => ({
-  container: {
-    display: 'flex',
-    flexWrap: 'wrap',
-  },
-  textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
-    width: 200,
-  },
-  dense: {
-    marginTop: 19,
-  },
-  menu: {
-    width: 200,
-  },
-});
+// const styles = theme => ({
+//   container: {
+//     display: 'flex',
+//     flexWrap: 'wrap',
+//   },
+//   textField: {
+//     marginLeft: theme.spacing.unit,
+//     marginRight: theme.spacing.unit,
+//     width: 200,
+//   },
+//   dense: {
+//     marginTop: 19,
+//   },
+//   menu: {
+//     width: 200,
+//   },
+// });
 
 class App extends Component {
 
@@ -76,7 +73,7 @@ class App extends Component {
 
 
   render() {
-    var state = this.state["Algorithm"]
+    // var state = this.state["Algorithm"]
     const { value } = this.state;
     return (
       <div>
@@ -84,6 +81,8 @@ class App extends Component {
           <Tabs value={value} onChange={this.handleChange} centered>
             <Tab value="one" label="kMeans" />
             <Tab value="two" label="Vectores" />
+            <Tab value="three" label="Foto" />
+            
           </Tabs>
         </AppBar>
         {value === 'one' && <TabContainer>
@@ -93,6 +92,10 @@ class App extends Component {
         {value === 'two' && <TabContainer>
           <h1>Vectors</h1>
           <Vectors />
+        </TabContainer>} 
+         {value === 'three' && <TabContainer>
+          <h1>Foto</h1>
+          <Photo />
         </TabContainer>}
 
       </div>

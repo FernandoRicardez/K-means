@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import P5Wrapper from 'react-p5-wrapper';
 import graph from './graph/graph2';
 import './App.css';
@@ -10,26 +9,25 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
-import { func } from 'prop-types';
 
 
-const styles = theme => ({
-  container: {
-    display: 'flex',
-    flexWrap: 'wrap',
-  },
-  textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
-    width: 200,
-  },
-  dense: {
-    marginTop: 19,
-  },
-  menu: {
-    width: 200,
-  },
-});
+// const styles = theme => ({
+//   container: {
+//     display: 'flex',
+//     flexWrap: 'wrap',
+//   },
+//   textField: {
+//     marginLeft: theme.spacing.unit,
+//     marginRight: theme.spacing.unit,
+//     width: 200,
+//   },
+//   dense: {
+//     marginTop: 19,
+//   },
+//   menu: {
+//     width: 200,
+//   },
+// });
 
 class nVectors extends Component {
 
@@ -103,8 +101,7 @@ class nVectors extends Component {
 
       // console.log(dataSetee);
       this.setState({ dataSet: dataSetee });
-      var myJsonString = JSON.stringify(dataSetee);
-
+    
       this.calculateInitialvectors()
     }
 
@@ -124,11 +121,9 @@ class nVectors extends Component {
   VectorsAlgorithm() {
 
     var dataSet = this.state["dataSet"];
-    var nDim = this.state["nDimensions"];
     var nVectors = this.state["nVectors"];
     var vectors = this.state["vectors"];
     var nTimes = this.state["nTimes"];
-    var clusters = [];
 
     for (var nVeces = 0; nVeces < nTimes; nVeces++) {
 
@@ -163,8 +158,8 @@ class nVectors extends Component {
 
     var nDim = this.state["nDimensions"];
 
-    for (var i = 0; i < nDim; i++) {
-      v1["d" + i] = v1["d" + i] + v2["d" + i];
+    for (var i2 = 0; i2 < nDim; i2++) {
+      v1["d" + i2] = v1["d" + i2] + v2["d" + i2];
     }
     
     var sum = 0;
@@ -172,8 +167,8 @@ class nVectors extends Component {
       sum += Math.pow((v1["d" + i]), 2);
     }
     sum = Math.sqrt(sum); 
-    for (var i = 0; i < nDim; i++) {
-      v1["d"+i] = (v1["d" + i]/sum);
+    for (var i3 = 0; i3 < nDim; i3++) {
+      v1["d"+i3] = (v1["d" + i3]/sum);
   }
   return (v1);
 }
@@ -181,14 +176,13 @@ class nVectors extends Component {
   categorize() {
 
     var dataSet = this.state["dataSet"];
-    var nDim = this.state["nDimensions"];
     var nVectors = this.state["nVectors"];
     var vectors = this.state["vectors"];
 
     var clusters = [];
     var clusterCount = [];
-    for (var i = 0; i < nVectors; i++) {
-      clusterCount[i] = 0;
+    for (var i0 = 0; i0 < nVectors; i0++) {
+      clusterCount[i0] = 0;
     }
     for(var i=0; i<dataSet.length;i++)
     {
@@ -200,7 +194,6 @@ class nVectors extends Component {
        //console.log(firstCentroid);
        for(var j= 0; j< nVectors; j++)
        {
-           var point = dataSet[i]; // == 1,2,3,4
            var currVector = vectors[j]
            var v = this.pointProduct(dataSet[i],currVector)
            if(v>pointProductMax)
@@ -325,7 +318,7 @@ class nVectors extends Component {
 
 
   render() {
-    var dataSet = this.state["dataSet"];
+ 
     if (this.state["graph"])
       return (
         <div className="App">

@@ -29,7 +29,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 //   },
 // });
 
-class Kmeans extends Component {
+class Photo extends Component {
 
   constructor(props) {
     super(props);
@@ -78,31 +78,43 @@ class Kmeans extends Component {
 
       let arrPoints = {};
       let dataSetee = [];
+      var img = new Image();
+      img.src = "https://scontent.fgdl4-1.fna.fbcdn.net/v/t1.15752-9/43466807_531876757234032_7884919030371319808_n.png?_nc_cat=111&oh=41f3f84561f9acfcfa7e6306162a7fb5&oe=5C1D37AA";
+      var w = img.width || img.naturalWidth, h = img.height || img.naturalHeight;
+      var canvas = document.createElement('canvas');
+      canvas.width = w;
+      canvas.height = h;
+      
+      var ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0);
+      
+     
+   //  var imgData = ctx.getImageData(0, 0, w, h).data; //Error
 
-      const lines = e.target.result.split(/[\r\n]+/g);
-      for (var i = 0; i < lines.length; i++) {
+    //   const lines = e.target.result.split(/[\r\n]+/g);
+    //   for (var i = 0; i < imgData.length; i++) {
 
-        // console.log(i + ' --> ' + lines[i]);
-        const pointer = lines[i].split(',');
-        this.setState({ nDimensions: pointer.length });
-        for (var j = 0; j < pointer.length; j++) {
-          // console.log(i  + ':' + j +  '-->' + pointer[j]);
-          // arrPoints.push(pointer[j]);
-          var varname = "d" + j;
+    //     // console.log(i + ' --> ' + lines[i]);
+    //     this.setState({ nDimensions: 3 });
+    //     for (var j = 0; j < imgData[0].length; j++) {
+    //       // console.log(i  + ':' + j +  '-->' + pointer[j]);
+    //       // arrPoints.push(pointer[j]);
+    //       var varname = "d" + j;
 
-          arrPoints[varname] = parseFloat(pointer[j]);
+    //       arrPoints[varname] = parseFloat(imgData[i][j]);
 
 
-        }
+    //     }
 
-        dataSetee.push(arrPoints);
-        arrPoints = {};
-      }
+    //     dataSetee.push(arrPoints);
+    //     arrPoints = {};
+    //   }
 
-      // console.log(dataSetee);
-      this.setState({ dataSet: dataSetee });
 
-      this.calculateInitialCentroids()
+    //   // console.log(dataSetee);
+    //   this.setState({ dataSet: dataSetee });
+
+    //   this.calculateInitialCentroids()
     }
 
 
@@ -421,4 +433,4 @@ class Kmeans extends Component {
   }
 }
 
-export default Kmeans;
+export default Photo;

@@ -5,8 +5,7 @@ export default function graph(p)
     let kMeans = 0;
     let clusters = [];
     let minmax = [];
-    let colors = [];
-    
+   
     
     let currDim1 = 0;
     let currDim2 = 1;
