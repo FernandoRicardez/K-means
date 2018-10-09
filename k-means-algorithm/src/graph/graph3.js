@@ -40,28 +40,15 @@ export default function graph(p)
 
       p.draw = function () {
         p.background(255);
-        p.push();
-        p.stroke(0);
-        p.strokeWeight(5);
-        var colors = [];
-         
-          for(var i=0;i<kMeans;i++)
-          {
-              var color = [];
-              for(var j=0;j<3;j++)
-              {
-                color[j]=  Math.floor(Math.random() * 256);
-              }
-              colors.push(color);
-          }
         
+        p.stroke(0);
+        p.strokeWeight(1);
          
-          
         for(var i =0; i<dataset.length;i++)
         {   
-            p.stroke(colors[clusters[i]][0],colors[clusters[i]][1],colors[clusters[i]][2]);
+            p.stroke(centroids[clusters[i]][0],centroids[clusters[i]][1],centroids[clusters[i]][2]);
             
-            p.point(parseInt((dataset[i]["d"+currDim1]-minmax[currDim1][0])*factor1),parseInt((dataset[i]["d"+currDim2]-minmax[currDim2][0])*factor2));
+            p.point(i%149,i/149);
             
         }
         
@@ -71,22 +58,20 @@ export default function graph(p)
        
         for(var i=0; i< kMeans;i++)
         {
-           
-          var centroid =   centroids[i];
+         // p.stroke(255,0,0);
+        //   p.point(parseInt((centroid[currDim1]-minmax[currDim1][0])*factor1),parseInt((centroid[currDim2]-minmax[currDim2][0])*factor2));
           
-        p.stroke(255,0,0);
-          p.point(parseInt((centroid[currDim1]-minmax[currDim1][0])*factor1),parseInt((centroid[currDim2]-minmax[currDim2][0])*factor2));
-          
-        p.stroke(255,255,255);
-          p.fill(20);
+        // p.stroke(255,255,255);
+        //   p.fill(20);
           // p.textSize(10);
           // p.text("x:"+minmax[currDim1][0], 10, 10);;
           // p.text("x:" +minmax[currDim1][1], 10, 490);;
           // p.text("y2:"+minmax[currDim2][0], 490, 10);;
           // p.text("y1:"+minmax[currDim2][1], 10, 490);;
           p.noLoop();
+         
         };
-        p.push();
+   
       };
     
 }

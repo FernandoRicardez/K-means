@@ -99,7 +99,7 @@ class Kmeans extends Component {
         arrPoints = {};
       }
 
-      // console.log(dataSetee);
+       console.log(dataSetee);
       this.setState({ dataSet: dataSetee });
 
       this.calculateInitialCentroids()

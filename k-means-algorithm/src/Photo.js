@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import P5Wrapper from 'react-p5-wrapper';
-import graph from './graph/graph';
+import graph from './graph/graph3';
 import './App.css';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField'
@@ -59,8 +59,59 @@ class Photo extends Component {
     this.graph = this.graph.bind(this);
     this.setDim1 = this.setDim1.bind(this);
     this.setDim2 = this.setDim2.bind(this);
+    
+    this.handleFileChange = this.handleFileChange.bind(this);
 
   }
+
+
+  handleFileChange = (e) => {
+    const ctx = this.canvas.getContext('2d');
+    const img = new Image();
+    
+    let arrPoints = {};
+    let dataSetee = [];
+    this.setState({ nDimensions: 3 });
+        
+
+    img.onload = () => {
+      const width = img.width;
+      const height = img.height;
+      
+      this.setState({ width, height });
+      ctx.width = width;
+      ctx.height = height;
+      ctx.drawImage(img, 0, 0, width, height);
+      
+      URL.revokeObjectURL(img.src);
+      
+      /* Read pixel data */
+      const imageData = ctx.getImageData(0, 0, width, height);
+      const data = imageData.data;
+      // => [r,g,b,a,...]
+      
+      const pixels = [];
+      for (let i = 0; i < data.length; i += 4) {
+  
+    
+
+        arrPoints["d0"] = data[i];
+        arrPoints["d1"] = data[i+1];
+        arrPoints["d2"] = data[i+2];
+
+        dataSetee.push(arrPoints);
+        arrPoints = {};
+
+      }
+
+       //console.log(`pixels (${img.width}x${img.height})`, dataSetee);
+       this.setState({ dataSet: dataSetee });
+     
+       this.calculateInitialCentroids();
+    };
+    img.src = URL.createObjectURL(e.target.files[0]);
+
+  };
 
 
   //Kmeans Algorithm
@@ -68,54 +119,33 @@ class Photo extends Component {
   //Read data file
   readFile(e) {
     //readFile
-    let file = e.target.files;
-
-    let reader = new FileReader();
-    reader.readAsText(file[0]);
-
-    reader.onload = (e) => {
-      // console.log('data', e.target.result);
-
-      let arrPoints = {};
-      let dataSetee = [];
       var img = new Image();
-      img.src = "https://scontent.fgdl4-1.fna.fbcdn.net/v/t1.15752-9/43466807_531876757234032_7884919030371319808_n.png?_nc_cat=111&oh=41f3f84561f9acfcfa7e6306162a7fb5&oe=5C1D37AA";
-      var w = img.width || img.naturalWidth, h = img.height || img.naturalHeight;
-      var canvas = document.createElement('canvas');
-      canvas.width = w;
-      canvas.height = h;
-      
-      var ctx = canvas.getContext('2d');
-      ctx.drawImage(img, 0, 0);
-      
-     
-   //  var imgData = ctx.getImageData(0, 0, w, h).data; //Error
+   
+      // const lines = e.target.result.split(/[\r\n]+/g);
+      // for (var i = 0; i < imgData.length; i++) {
 
-    //   const lines = e.target.result.split(/[\r\n]+/g);
-    //   for (var i = 0; i < imgData.length; i++) {
+      //   // console.log(i + ' --> ' + lines[i]);
+      //   this.setState({ nDimensions: 3 });
+      //   for (var j = 0; j < imgData[0].length; j++) {
+      //     // console.log(i  + ':' + j +  '-->' + pointer[j]);
+      //     // arrPoints.push(pointer[j]);
+      //     var varname = "d" + j;
 
-    //     // console.log(i + ' --> ' + lines[i]);
-    //     this.setState({ nDimensions: 3 });
-    //     for (var j = 0; j < imgData[0].length; j++) {
-    //       // console.log(i  + ':' + j +  '-->' + pointer[j]);
-    //       // arrPoints.push(pointer[j]);
-    //       var varname = "d" + j;
-
-    //       arrPoints[varname] = parseFloat(imgData[i][j]);
+      //     arrPoints[varname] = parseFloat(imgData[i][j]);
 
 
-    //     }
+      //   }
 
-    //     dataSetee.push(arrPoints);
-    //     arrPoints = {};
-    //   }
+      //   dataSetee.push(arrPoints);
+      //   arrPoints = {};
+      // }
 
 
-    //   // console.log(dataSetee);
-    //   this.setState({ dataSet: dataSetee });
+      // // console.log(dataSetee);
+      // this.setState({ dataSet: dataSetee });
 
-    //   this.calculateInitialCentroids()
-    }
+      this.calculateInitialCentroids();
+    
 
 
 
@@ -225,7 +255,7 @@ class Photo extends Component {
     }
     else {
 
-
+    console.log(dimSum);
       this.graph();
     }
 
@@ -321,7 +351,7 @@ class Photo extends Component {
           <Grid container spacing={24}>
             <Grid item xs={6}>
               <div className="col-sm-3">
-                <p>¿Cuantas K desea utilizar?</p>
+                <p>¿Cuantos colores desea utilizar?</p>
                 <TextField
                   id="kMeans"
                   label="kMeans Number"
@@ -343,33 +373,9 @@ class Photo extends Component {
                     </Button>
                   </label>  */}
                 {this.state["clusterCount"].map(function (x, i = 1) { return <p key={"lblCluster"+i}>cluster {++i}: {x}</p> })}
-
+                  
               </div>
-
-              <h3>Seleccione las dimensiones:</h3>
-
-              <Select
-                value={this.state.dimUno}
-                onChange={this.setDim1}
-                inputProps={{
-                  name: 'age',
-                  id: 'age-simple',
-                }}
-              >
-                {this.state["dimOptions"].map(function (x) { return <MenuItem value={x}>{x}</MenuItem> })}
-              </Select>
-
-              <Select
-                value={this.state.dimDos}
-                onChange={this.setDim2}
-                inputProps={{
-                  name: 'age',
-                  id: 'age-simple',
-                }}
-              >
-                {this.state["dimOptions"].map(function (x) { return <MenuItem value={x}>{x}</MenuItem> })}
-              </Select>
-            </Grid>
+             </Grid>
             <Grid item xs={6}>
               <div className="col-sm-9 orange">
                 <br />
@@ -398,18 +404,17 @@ class Photo extends Component {
                 <Paper elevation={3}>
                   <p>¿Qué archivo desea utilizar?</p>
 
+                <input type="file" onChange={this.handleFileChange} />
 
-                  <Input
-                    onChange={(e) => this.readFile(e)}
-                    id="file"
-                    type="file"
-                  />
                   <label htmlFor="file">
                     <Button variant="raised" component="span" >
                       Upload
                 </Button>
                   </label>
                 </Paper>
+                <canvas
+            ref={el => this.canvas = el} width={this.state["width"]} height={this.state["height"]} />
+
               </div>
 
 
