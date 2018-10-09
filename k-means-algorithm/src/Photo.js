@@ -300,6 +300,7 @@ class Photo extends Component {
     let centroids = [];
     var minmax = [];
     var option = []
+    this.state["iterationNumber"] = 0;
 
     for (var i = 0; i < nDim; i++) {
       var columnName = "d" + i;
@@ -379,7 +380,7 @@ class Photo extends Component {
             <Grid item xs={6}>
               <div className="col-sm-9 orange">
                 <br />
-                <P5Wrapper sketch={graph} dimUno={this.state["dimUno"]} dimDos={this.state["dimDos"]} clusters={this.state["clusters"]} dataSet={this.state["dataSet"]} centroids={this.state["centroids"]} minmax={this.state["minmax"]} kMeans={this.state["kMeans"]} />
+                <P5Wrapper  sketch={graph} width={this.state["width"]} tdimUno={this.state["dimUno"]} dimDos={this.state["dimDos"]} clusters={this.state["clusters"]} dataSet={this.state["dataSet"]} centroids={this.state["centroids"]} minmax={this.state["minmax"]} kMeans={this.state["kMeans"]} />
               </div>
             </Grid>
           </Grid>
