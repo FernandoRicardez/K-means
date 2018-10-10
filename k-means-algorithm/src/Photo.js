@@ -59,7 +59,7 @@ class Photo extends Component {
     this.graph = this.graph.bind(this);
     this.setDim1 = this.setDim1.bind(this);
     this.setDim2 = this.setDim2.bind(this);
-    
+
     this.handleFileChange = this.handleFileChange.bind(this);
 
   }
@@ -68,46 +68,46 @@ class Photo extends Component {
   handleFileChange = (e) => {
     const ctx = this.canvas.getContext('2d');
     const img = new Image();
-    
+
     let arrPoints = {};
     let dataSetee = [];
     this.setState({ nDimensions: 3 });
-        
+
 
     img.onload = () => {
       const width = img.width;
       const height = img.height;
-      
+
       this.setState({ width, height });
       ctx.width = width;
       ctx.height = height;
       ctx.drawImage(img, 0, 0, width, height);
-      
+
       URL.revokeObjectURL(img.src);
-      
+
       /* Read pixel data */
       const imageData = ctx.getImageData(0, 0, width, height);
       const data = imageData.data;
       // => [r,g,b,a,...]
-      
+
       const pixels = [];
       for (let i = 0; i < data.length; i += 4) {
-  
-    
+
+
 
         arrPoints["d0"] = data[i];
-        arrPoints["d1"] = data[i+1];
-        arrPoints["d2"] = data[i+2];
+        arrPoints["d1"] = data[i + 1];
+        arrPoints["d2"] = data[i + 2];
 
         dataSetee.push(arrPoints);
         arrPoints = {};
 
       }
 
-       //console.log(`pixels (${img.width}x${img.height})`, dataSetee);
-       this.setState({ dataSet: dataSetee });
-     
-       this.calculateInitialCentroids();
+      //console.log(`pixels (${img.width}x${img.height})`, dataSetee);
+      this.setState({ dataSet: dataSetee });
+
+      this.calculateInitialCentroids();
     };
     img.src = URL.createObjectURL(e.target.files[0]);
 
@@ -119,33 +119,33 @@ class Photo extends Component {
   //Read data file
   readFile(e) {
     //readFile
-      var img = new Image();
-   
-      // const lines = e.target.result.split(/[\r\n]+/g);
-      // for (var i = 0; i < imgData.length; i++) {
+    var img = new Image();
 
-      //   // console.log(i + ' --> ' + lines[i]);
-      //   this.setState({ nDimensions: 3 });
-      //   for (var j = 0; j < imgData[0].length; j++) {
-      //     // console.log(i  + ':' + j +  '-->' + pointer[j]);
-      //     // arrPoints.push(pointer[j]);
-      //     var varname = "d" + j;
+    // const lines = e.target.result.split(/[\r\n]+/g);
+    // for (var i = 0; i < imgData.length; i++) {
 
-      //     arrPoints[varname] = parseFloat(imgData[i][j]);
+    //   // console.log(i + ' --> ' + lines[i]);
+    //   this.setState({ nDimensions: 3 });
+    //   for (var j = 0; j < imgData[0].length; j++) {
+    //     // console.log(i  + ':' + j +  '-->' + pointer[j]);
+    //     // arrPoints.push(pointer[j]);
+    //     var varname = "d" + j;
 
-
-      //   }
-
-      //   dataSetee.push(arrPoints);
-      //   arrPoints = {};
-      // }
+    //     arrPoints[varname] = parseFloat(imgData[i][j]);
 
 
-      // // console.log(dataSetee);
-      // this.setState({ dataSet: dataSetee });
+    //   }
 
-      this.calculateInitialCentroids();
-    
+    //   dataSetee.push(arrPoints);
+    //   arrPoints = {};
+    // }
+
+
+    // // console.log(dataSetee);
+    // this.setState({ dataSet: dataSetee });
+
+    this.calculateInitialCentroids();
+
 
 
 
@@ -255,7 +255,7 @@ class Photo extends Component {
     }
     else {
 
-    console.log(dimSum);
+      console.log(dimSum);
       this.graph();
     }
 
@@ -373,14 +373,14 @@ class Photo extends Component {
                     Upload
                     </Button>
                   </label>  */}
-                {this.state["clusterCount"].map(function (x, i = 1) { return <p key={"lblCluster"+i}>cluster {++i}: {x}</p> })}
-                  
+                {this.state["clusterCount"].map(function (x, i = 1) { return <p key={"lblCluster" + i}>cluster {++i}: {x}</p> })}
+
               </div>
-             </Grid>
+            </Grid>
             <Grid item xs={6}>
-              <div className="col-sm-9 orange">
+              <div className="col-sm-9">
                 <br />
-                <P5Wrapper  sketch={graph} width={this.state["width"]} tdimUno={this.state["dimUno"]} dimDos={this.state["dimDos"]} clusters={this.state["clusters"]} dataSet={this.state["dataSet"]} centroids={this.state["centroids"]} minmax={this.state["minmax"]} kMeans={this.state["kMeans"]} />
+                <P5Wrapper sketch={graph} width={this.state["width"]} tdimUno={this.state["dimUno"]} dimDos={this.state["dimDos"]} clusters={this.state["clusters"]} dataSet={this.state["dataSet"]} centroids={this.state["centroids"]} minmax={this.state["minmax"]} kMeans={this.state["kMeans"]} />
               </div>
             </Grid>
           </Grid>
@@ -404,17 +404,20 @@ class Photo extends Component {
 
                 <Paper elevation={3}>
                   <p>¿Qué archivo desea utilizar?</p>
-
-                <input type="file" onChange={this.handleFileChange} />
-
+                  <input
+                    style={{ display: 'none' }}
+                    onChange={this.handleFileChange} 
+                    id="file"
+                    type="file"
+                  />
                   <label htmlFor="file">
                     <Button variant="raised" component="span" >
                       Upload
-                </Button>
+                                            </Button>
                   </label>
                 </Paper>
                 <canvas
-            ref={el => this.canvas = el} width={this.state["width"]} height={this.state["height"]} />
+                  ref={el => this.canvas = el} width={this.state["width"]} height={this.state["height"]} />
 
               </div>
 

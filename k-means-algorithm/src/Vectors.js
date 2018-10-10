@@ -44,7 +44,7 @@ class nVectors extends Component {
       minmax: [],
       clusterCount: [],
       dimUno: 0,
-      dimDos: 1, 
+      dimDos: 1,
       dimOptions: []
     };
 
@@ -101,19 +101,19 @@ class nVectors extends Component {
 
       // console.log(dataSetee);
       this.setState({ dataSet: dataSetee });
-    
+
       this.calculateInitialvectors()
     }
 
   }
 
   setVectorsNumber(event) {
-    this.setState({graph: false});
+    this.setState({ graph: false });
     this.setState({ nVectors: event.target.value });
 
   }
   setTimesNumber(event) {
-    this.setState({graph: false});
+    this.setState({ graph: false });
     this.setState({ nTimes: event.target.value });
 
   }
@@ -142,9 +142,9 @@ class nVectors extends Component {
       }
       // update the clusters
       vectors[maxJ] = this.sumAndNormalizeVectors(vectors[maxJ], currPoint);
-     
 
-     
+
+
       this.setState({ vectors: vectors });
     }
     console.log("vectors");
@@ -161,17 +161,17 @@ class nVectors extends Component {
     for (var i2 = 0; i2 < nDim; i2++) {
       v1["d" + i2] = v1["d" + i2] + v2["d" + i2];
     }
-    
+
     var sum = 0;
     for (var i = 0; i < nDim; i++) {
       sum += Math.pow((v1["d" + i]), 2);
     }
-    sum = Math.sqrt(sum); 
+    sum = Math.sqrt(sum);
     for (var i3 = 0; i3 < nDim; i3++) {
-      v1["d"+i3] = (v1["d" + i3]/sum);
+      v1["d" + i3] = (v1["d" + i3] / sum);
+    }
+    return (v1);
   }
-  return (v1);
-}
 
   categorize() {
 
@@ -184,28 +184,25 @@ class nVectors extends Component {
     for (var i0 = 0; i0 < nVectors; i0++) {
       clusterCount[i0] = 0;
     }
-    for(var i=0; i<dataSet.length;i++)
-    {
-     //Calcular max W
-     var firstVector =  vectors[0];
-     //  console.log(dataSet[i])
-       var pointProductMax = this.pointProduct(dataSet[i],firstVector);
-       var maxJ = 0;
-       //console.log(firstCentroid);
-       for(var j= 0; j< nVectors; j++)
-       {
-           var currVector = vectors[j]
-           var v = this.pointProduct(dataSet[i],currVector)
-           if(v>pointProductMax)
-           {
-             pointProductMax = v;
-             maxJ = j;
-           }
+    for (var i = 0; i < dataSet.length; i++) {
+      //Calcular max W
+      var firstVector = vectors[0];
+      //  console.log(dataSet[i])
+      var pointProductMax = this.pointProduct(dataSet[i], firstVector);
+      var maxJ = 0;
+      //console.log(firstCentroid);
+      for (var j = 0; j < nVectors; j++) {
+        var currVector = vectors[j]
+        var v = this.pointProduct(dataSet[i], currVector)
+        if (v > pointProductMax) {
+          pointProductMax = v;
+          maxJ = j;
+        }
 
 
-       }
-       clusterCount[maxJ]++;
-       clusters[i] = maxJ;
+      }
+      clusterCount[maxJ]++;
+      clusters[i] = maxJ;
     }
 
     // for (var i = 0; i < dataSet.length; i++) {
@@ -301,7 +298,7 @@ class nVectors extends Component {
 
 
     this.setState({ vectors: vectors });
-    this.setState({dimOptions: option});
+    this.setState({ dimOptions: option });
 
     this.VectorsAlgorithm();
   }
@@ -318,7 +315,7 @@ class nVectors extends Component {
 
 
   render() {
- 
+
     if (this.state["graph"])
       return (
         <div className="App">
@@ -410,10 +407,10 @@ class nVectors extends Component {
                     />
                   </Paper>
 
-
                   <Paper elevation={3}>
                     <p>¿Qué archivo desea utilizar?</p>
-                    <Input
+                    <input
+                      style={{ display: 'none' }}
                       onChange={(e) => this.readFile(e)}
                       id="file"
                       type="file"
@@ -421,7 +418,7 @@ class nVectors extends Component {
                     <label htmlFor="file">
                       <Button variant="raised" component="span" >
                         Upload
-                </Button>
+                      </Button>
                     </label>
                   </Paper>
                 </Grid>

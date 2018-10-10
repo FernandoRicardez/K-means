@@ -99,7 +99,7 @@ class Kmeans extends Component {
         arrPoints = {};
       }
 
-       console.log(dataSetee);
+      console.log(dataSetee);
       this.setState({ dataSet: dataSetee });
 
       this.calculateInitialCentroids()
@@ -330,7 +330,7 @@ class Kmeans extends Component {
                     Upload
                     </Button>
                   </label>  */}
-                {this.state["clusterCount"].map(function (x, i = 1) { return <p key={"lblCluster"+i}>cluster {++i}: {x}</p> })}
+                {this.state["clusterCount"].map(function (x, i = 1) { return <p key={"lblCluster" + i}>cluster {++i}: {x}</p> })}
 
               </div>
 
@@ -385,9 +385,8 @@ class Kmeans extends Component {
 
                 <Paper elevation={3}>
                   <p>¿Qué archivo desea utilizar?</p>
-
-
-                  <Input
+                  <input
+                    style={{ display: 'none' }}
                     onChange={(e) => this.readFile(e)}
                     id="file"
                     type="file"
@@ -395,9 +394,10 @@ class Kmeans extends Component {
                   <label htmlFor="file">
                     <Button variant="raised" component="span" >
                       Upload
-                </Button>
+                                            </Button>
                   </label>
                 </Paper>
+
               </div>
 
 

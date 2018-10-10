@@ -235,14 +235,13 @@ class nVectors extends Component {
         this.setState({ clusters: clusters });
 
         this.setState({ clusterCount: clusterCount });
-        
+
         this.getMeans();
 
 
     }
 
-    getMeans()
-    {
+    getMeans() {
         var dataSet = this.state["dataSet"];
         var nVectors = this.state["nVectors"];
         var vectors = this.state["vectors"];
@@ -252,28 +251,28 @@ class nVectors extends Component {
         for (var i = 0; i < nVectors; i++) {
 
             clusterCount[i] = 0;
-            dimSum["d"+i] = [];
+            dimSum["d" + i] = [];
             for (var j = 0; j < 3; j++) {
-              dimSum["d"+i][j] = 0;
-      
+                dimSum["d" + i][j] = 0;
+
             }
-      
-          }
-      
-          for (var i = 0; i < dataSet.length; i++) {
+
+        }
+
+        for (var i = 0; i < dataSet.length; i++) {
             var cluster = clusters[i];
             clusterCount[cluster]++;
             for (var j = 0; j < 3; j++) {
-              dimSum["d"+cluster][j] += dataSet[i]["d" + j];
+                dimSum["d" + cluster][j] += dataSet[i]["d" + j];
             }
-          }
-          for (var i = 0; i < nVectors; i++) {
+        }
+        for (var i = 0; i < nVectors; i++) {
             for (var j = 0; j < 3; j++) {
-              dimSum["d"+i][j] /= clusterCount[i];
+                dimSum["d" + i][j] /= clusterCount[i];
             }
-          }
-          
-        this.setState({vectors:dimSum});
+        }
+
+        this.setState({ vectors: dimSum });
         this.graph();
 
     }
@@ -290,8 +289,8 @@ class nVectors extends Component {
     }
 
     graph() {
-        
-       this.setState({ graph: true });
+
+        this.setState({ graph: true });
     }
 
     pointProduct(v1, v2) {
@@ -386,32 +385,9 @@ class nVectors extends Component {
                   </Button>
                             </label>
                             {this.state["clusterCount"].map(function (x, i = 1) { return <p>cluster {++i}: {x}</p> })}
-
-                            <Select
-                                value={this.state.dimUno}
-                                onChange={this.setDim1}
-                                inputProps={{
-                                    name: 'age',
-                                    id: 'age-simple',
-                                }}
-                            >
-                                {this.state["dimOptions"].map(function (x) { return <MenuItem value={x}>{x}</MenuItem> })}
-                            </Select>
-
-                            <Select
-                                value={this.state.dimDos}
-                                onChange={this.setDim2}
-                                inputProps={{
-                                    name: 'age',
-                                    id: 'age-simple',
-                                }}
-                            >
-                                {this.state["dimOptions"].map(function (x) { return <MenuItem value={x}>{x}</MenuItem> })}
-                            </Select>
-
                         </div>
 
-                        <div className="col-sm-9 orange">
+                        <div className="col-sm-9">
                             <br />
                             <P5Wrapper sketch={graph} width={this.state["width"]} dimUno={this.state["dimUno"]} dimDos={this.state["dimDos"]} clusters={this.state["clusters"]} dataSet={this.state["dataSet"]} centroids={this.state["vectors"]} minmax={this.state["minmax"]} kMeans={this.state["nVectors"]} />
                         </div>
@@ -453,7 +429,8 @@ class nVectors extends Component {
 
                                     <Paper elevation={3}>
                                         <p>¿Qué archivo desea utilizar?</p>
-                                        <Input
+                                        <input
+                                            style={{ display: 'none' }}
                                             onChange={(e) => this.readFile(e)}
                                             id="file"
                                             type="file"
@@ -461,7 +438,7 @@ class nVectors extends Component {
                                         <label htmlFor="file">
                                             <Button variant="raised" component="span" >
                                                 Upload
-                </Button>
+                                            </Button>
                                         </label>
                                     </Paper>
                                     <canvas
