@@ -5,6 +5,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import PropTypes from 'prop-types';
+import Photovector from './foto_vectors';
 import Kmeans from './Kmeans';
 import Vectors from './Vectors';
 import Photo from './Photo';
@@ -82,7 +83,8 @@ class App extends Component {
             <Tab value="one" label="kMeans" />
             <Tab value="two" label="Vectores" />
             <Tab value="three" label="Foto" />
-            
+            <Tab value="four" label="Foto vectors" />
+
           </Tabs>
         </AppBar>
         {value === 'one' && <TabContainer>
@@ -92,10 +94,14 @@ class App extends Component {
         {value === 'two' && <TabContainer>
           <h1>Vectors</h1>
           <Vectors />
-        </TabContainer>} 
-         {value === 'three' && <TabContainer>
-          <h1>Foto</h1>
+        </TabContainer>}
+        {value === 'three' && <TabContainer>
+          <h1>Foto Kmeans</h1>
           <Photo />
+        </TabContainer>}
+        {value === 'four' && <TabContainer>
+          <h1>Foto vectors</h1>
+          <Photovector />
         </TabContainer>}
 
       </div>
