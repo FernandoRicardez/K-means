@@ -60,6 +60,7 @@ class nVectors extends Component {
         this.setTimesNumber = this.setTimesNumber.bind(this);
         this.setDim1 = this.setDim1.bind(this);
         this.setDim2 = this.setDim2.bind(this);
+        this.getMeans = this.getMeans.bind(this);
     }
 
 
@@ -234,9 +235,46 @@ class nVectors extends Component {
         this.setState({ clusters: clusters });
 
         this.setState({ clusterCount: clusterCount });
+        
+        this.getMeans();
 
+
+    }
+
+    getMeans()
+    {
+        var dataSet = this.state["dataSet"];
+        var nVectors = this.state["nVectors"];
+        var vectors = this.state["vectors"];
+        var clusters = this.state["clusters"];
+        var dimSum = [];
+        var clusterCount = []
+        for (var i = 0; i < nVectors; i++) {
+
+            clusterCount[i] = 0;
+            dimSum["d"+i] = [];
+            for (var j = 0; j < 3; j++) {
+              dimSum["d"+i][j] = 0;
+      
+            }
+      
+          }
+      
+          for (var i = 0; i < dataSet.length; i++) {
+            var cluster = clusters[i];
+            clusterCount[cluster]++;
+            for (var j = 0; j < 3; j++) {
+              dimSum["d"+cluster][j] += dataSet[i]["d" + j];
+            }
+          }
+          for (var i = 0; i < nVectors; i++) {
+            for (var j = 0; j < 3; j++) {
+              dimSum["d"+i][j] /= clusterCount[i];
+            }
+          }
+          
+        this.setState({vectors:dimSum});
         this.graph();
-
 
     }
 
@@ -252,9 +290,8 @@ class nVectors extends Component {
     }
 
     graph() {
-        console.log(this.state["vectors"]);
         
-        // this.setState({ graph: true });
+       this.setState({ graph: true });
     }
 
     pointProduct(v1, v2) {
@@ -376,7 +413,7 @@ class nVectors extends Component {
 
                         <div className="col-sm-9 orange">
                             <br />
-                            <P5Wrapper sketch={graph} dimUno={this.state["dimUno"]} dimDos={this.state["dimDos"]} clusters={this.state["clusters"]} dataSet={this.state["dataSet"]} centroids={this.state["vectors"]} minmax={this.state["minmax"]} kMeans={this.state["nVectors"]} />
+                            <P5Wrapper sketch={graph} width={this.state["width"]} dimUno={this.state["dimUno"]} dimDos={this.state["dimDos"]} clusters={this.state["clusters"]} dataSet={this.state["dataSet"]} centroids={this.state["vectors"]} minmax={this.state["minmax"]} kMeans={this.state["nVectors"]} />
                         </div>
                     </div>
                 </div>

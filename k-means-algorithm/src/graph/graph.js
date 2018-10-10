@@ -84,7 +84,7 @@ export default function graph(p)
           // p.text("x:" +minmax[currDim1][1], 10, 490);;
           // p.text("y2:"+minmax[currDim2][0], 490, 10);;
           // p.text("y1:"+minmax[currDim2][1], 10, 490);;
-          p.noLoop();
+          //p.noLoop();
         };
         p.push();
       };
